@@ -37,9 +37,9 @@ public class MqttServer {
 
                             ChannelPipeline p = ch.pipeline();
                             p.addLast(new IdleStateHandler(10, 10, 120, TimeUnit.SECONDS));//心跳机制
-                            p.addLast(MqttEncoder.INSTANCE);//编码
+//                            p.addLast(MqttEncoder.INSTANCE);//编码
                             p.addLast(new MqttDecoder());//解码
-//                            p.addLast(new MqttServerHandler(65535));
+                            p.addLast(new MqttServerHandler());
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)//等待队列

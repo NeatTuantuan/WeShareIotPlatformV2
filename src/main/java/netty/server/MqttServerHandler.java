@@ -1,253 +1,136 @@
 package netty.server;
 
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.mqtt.*;
+import io.netty.util.AttributeKey;
+import netty.message.Message;
+import netty.util.Constants;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class MqttServerHandler {
-
-    /**
-     * @description 协议可变头部与消息体部分定义
-     */
-    private String clientId;//客户端唯一标识
-    private String userName;
-    private String password;
-    private String brokerId;
-    private boolean connected;
-    private boolean cleanSessionm;//清理会话
-    private int keepAlive;//空闲连接时间
-    private int keepAliveMax;
-
-    public MqttServerHandler(int keepAliveMax){
-        this.keepAliveMax = keepAliveMax;
-    }
-
-    public void channelRead0(ChannelHandlerContext ctx, MqttMessage msg) throws Exception{
-
-        try{
-            /**
-             * @description mqtt14种控制报文
-             */
-            if(msg.decoderResult().isSuccess()){
-                //消息类型存放在固定头部中
-                switch (msg.fixedHeader().messageType()){
+public class MqttServerHandler extends SimpleChannelInboundHandler<Object> {
+    public static Logger log = LogManager.getLogger(MqttServerHandler.class);
+    @Override
+    protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
+        try
+        {
+            //处理mqtt消息
+            if (((MqttMessage)msg).decoderResult().isSuccess())
+            {
+                MqttMessage req = (MqttMessage)msg;
+                switch (req.fixedHeader().messageType())
+                {
                     case CONNECT:
-                        onConnect(ctx, (MqttConnectMessage) msg);
-                        return;
-                    case CONNACK:
-                        onConnack(ctx, (MqttConnAckMessage) msg);
-                    case PUBLISH:
-                        onPublish(ctx, (MqttPublishMessage) msg);
-                        return;
-                    case PUBACK:
-                        onPuback(ctx, (MqttPubAckMessage)msg);
-                        return;
-                    case PUBREC:
-                        onPubrec(ctx, msg);
-                        return;
-                    case PUBREL:
-                        onPubrel(ctx, msg);
-                        return;
-                    case PUBCOMP:
-                        onPubcomp(ctx, msg);
-                        return;
-                    case SUBACK:
-                        onSuback(ctx, (MqttSubAckMessage)msg);
+                        doConnectMessage(ctx, msg);
                         return;
                     case SUBSCRIBE:
-                        onSubscribe(ctx, (MqttSubscribeMessage) msg);
+                        doSubMessage(ctx, msg);
                         return;
-                    case UNSUBSCRIBE:
-                        onUnsubscribe(ctx, (MqttUnsubscribeMessage) msg);
-                        return;
-                    case UNSUBACK:
-                        onUnsuback(ctx, (MqttUnsubAckMessage) msg);
+                    case PUBLISH:
+                        doPublishMessage(ctx, msg);
                         return;
                     case PINGREQ:
-                        onPingreq(ctx, msg);
-                        return;
+                    case PUBACK:
+                    case PUBREC:
+                    case PUBREL:
+                    case PUBCOMP:
+                    case UNSUBACK:
                     case PINGRESP:
-                        onPingresq(ctx, msg);
-                        return;
                     case DISCONNECT:
-                        onDisconnect(ctx);
+                        ctx.close();
                         return;
                     default:
                         return;
                 }
             }
-        }catch (Exception e){
-            System.out.println("传输过来的报文不符合协议格式");
         }
+        catch (Exception ex)
+        {
+
+        }
+    }
+    private void doPublishMessage(ChannelHandlerContext ctx, Object msg){
+        MqttPublishMessage message = (MqttPublishMessage) msg;
+        //QoS = 1
+        if (message.fixedHeader().qosLevel()==MqttQoS.AT_LEAST_ONCE){
+            byte[] messageBytes = new byte[message.payload().readableBytes()];
+            message.payload().getBytes(message.payload().readerIndex(),messageBytes);
+            Message message1 = new Message();
+            message1.setTopic(message.variableHeader().topicName());
+            message1.setMqttQoS(message.fixedHeader().qosLevel().value());
+            message1.setMessageBytes(messageBytes);
+            //怎么获得客户端clientId然后推送
+
+            //返回ack
+
+        }
+    }
+    /**
+     * 处理 客户端订阅消息
+     */
+    private void doSubMessage(ChannelHandlerContext ctx, Object msg) {
+        MqttSubscribeMessage message = (MqttSubscribeMessage)msg;
+        int msgId = message.variableHeader().messageId();
+        List<MqttTopicSubscription> requestSubscriptions = message.payload().topicSubscriptions();
+        for (MqttTopicSubscription subscription : requestSubscriptions){
+            if (StringUtils.isEmpty(subscription.topicName())){
+                ctx.close();
+                return;
+            }
+        }
+//        获得相关主题的服务质量要求，用于返回码和处理保留的消息。并返回SUBACK报文
+        List<Integer> grantedQosLevels = new ArrayList<>();
+        requestSubscriptions.forEach(subscription ->{
+            grantedQosLevels.add(subscription.qualityOfService().value());
+        });
+
+        MqttMessageIdVariableHeader header = MqttMessageIdVariableHeader.from(msgId);
+        MqttSubAckPayload payload = new MqttSubAckPayload(grantedQosLevels);
+        MqttSubAckMessage suback = new MqttSubAckMessage(Constants.SUBACK_HEADER, header, payload);
+        ctx.write(suback);
     }
 
     /**
-     * @description 处理客户端的连接请求
-     * @param ctx
-     * @param msg
+     * 处理连接请求
      */
-    private void onConnect(ChannelHandlerContext ctx, MqttConnectMessage msg)
-    {
-        //连接确认包括固定头与连接确认可变头，连接确认可变头包括返回码与会话标志
-        MqttConnAckVariableHeader variableheader = new MqttConnAckVariableHeader(
-                MqttConnectReturnCode.CONNECTION_ACCEPTED, false);
-        MqttFixedHeader CONNACK_HEADER = new MqttFixedHeader(MqttMessageType.CONNACK, false, MqttQoS.AT_MOST_ONCE, false, 0);
-        MqttConnAckMessage connAckMessage = new MqttConnAckMessage(CONNACK_HEADER, variableheader);
-        //ctx.write(MQEncoder.doEncode(ctx.alloc(),connAckMessage));
+    private void doConnectMessage(ChannelHandlerContext ctx, Object msg) {
+        MqttConnectMessage message = (MqttConnectMessage)msg;
+        //消息解码器出现异常
+        if (message.decoderResult().isFailure()){
+            Throwable cause = message.decoderResult().cause();
+            if (cause instanceof  MqttUnacceptableProtocolVersionException){
+                //不支持的协议版本
+                MqttConnAckMessage connAckMessage = (MqttConnAckMessage) MqttMessageFactory.newMessage(
+                        new MqttFixedHeader(MqttMessageType.CONNACK,false,MqttQoS.AT_MOST_ONCE,false,0),
+                        new MqttConnAckVariableHeader(MqttConnectReturnCode.CONNECTION_REFUSED_UNACCEPTABLE_PROTOCOL_VERSION,false),null);
+                    ctx.writeAndFlush(connAckMessage);
+                    ctx.close();
+                    return;
+            }else if (cause instanceof MqttIdentifierRejectedException){
+                //不合格的cilentId
+                MqttConnAckMessage connAckMessage = (MqttConnAckMessage)MqttMessageFactory.newMessage(
+                        new MqttFixedHeader(MqttMessageType.CONNACK,false,MqttQoS.AT_MOST_ONCE,false,0),
+                        new MqttConnAckVariableHeader(MqttConnectReturnCode.CONNECTION_REFUSED_IDENTIFIER_REJECTED,false),null);
+                    ctx.writeAndFlush(connAckMessage);
+                    ctx.close();
+                    return;
+            }
+            ctx.close();
+            return;
+        }
+        //TODO
+
+        //会话已经存在该clientId的处理
+        //遗嘱处理
+        //心跳
+        MqttConnAckVariableHeader variableheader = new MqttConnAckVariableHeader(MqttConnectReturnCode.CONNECTION_ACCEPTED, false);
+        MqttConnAckMessage connAckMessage = new MqttConnAckMessage(Constants.CONNACK_HEADER, variableheader);
+        ctx.channel().attr(AttributeKey.valueOf("clientId")).set(message.payload().clientIdentifier());
         ctx.write(connAckMessage);
-        this.clientId = msg.payload().clientIdentifier();
-        this.cleanSession = msg.variableHeader().isCleanSession();
-        if(msg.variableHeader().keepAliveTimeSeconds() > 0 && msg.variableHeader().keepAliveTimeSeconds() <= keepAliveMax){
-            this.keepAlive = msg.variableHeader().keepAliveTimeSeconds();
-        }
-        this.userName = msg.payload().userName();
-        this.password = msg.payload().password();
-        boolean userNameFlag = msg.variableHeader().hasUserName();
-        boolean passwordFlag = msg.variableHeader().hasPassword();
-        boolean flag = false;
-        if (userNameFlag) {
-            if (this.userName == null || this.userName == "")
-                flag = true;
-        } else {
-            if (this.userName != null && this.userName != "" || passwordFlag) flag = true;
-        }
-        if (passwordFlag) {
-            if (this.password == null || this.password == "") flag = true;
-        } else {
-            if (this.password != null && this.password != "") flag = true;
-        }
-        if(flag == false){
-            System.out.println("用户名及密码正确");
-        }
-
-    }
-
-    /**
-     * @description 连接确认
-     * @param ctx
-     * @param msg
-     */
-    private void onConnack(ChannelHandlerContext ctx, MqttConnAckMessage msg) {
-
-    }
-
-    /**
-     * @description 发布消息
-     * @param ctx
-     * @param msg
-     */
-    private void onPublish(ChannelHandlerContext ctx, MqttPublishMessage msg) {
-
-    }
-
-    /**
-     * @description 发布确认
-     * @param ctx
-     * @param msg
-     */
-    private void onPuback(ChannelHandlerContext ctx, MqttPubAckMessage msg) {
-
-    }
-
-    /**
-     * @description 发布收到
-     * @param ctx
-     * @param msg
-     */
-    private void onPubrec(ChannelHandlerContext ctx, MqttMessage msg) {
-
-    }
-
-    /**
-     * @description 发布释放
-     * @param ctx
-     * @param msg
-     */
-    private void onPubrel(ChannelHandlerContext ctx, MqttMessage msg) {
-
-    }
-
-    /**
-     *
-     * @param ctx
-     * @param msg
-     */
-    private void onPubcomp(ChannelHandlerContext ctx, MqttMessage msg) {
-
-    }
-
-    /**
-     * @description 订阅确认
-     * @param ctx
-     * @param msg
-     */
-    private void onSuback(ChannelHandlerContext ctx, MqttSubAckMessage msg) {
-
-    }
-
-    /**
-     * @description 订阅
-     * @param ctx
-     * @param msg
-     */
-    private void onSubscribe(ChannelHandlerContext ctx, MqttSubscribeMessage msg) {
-
-    }
-
-    /**
-     * @description 取消订阅
-     * @param ctx
-     * @param msg
-     */
-    private void onUnsubscribe(ChannelHandlerContext ctx, MqttUnsubscribeMessage msg) {
-
-    }
-
-    /**
-     * @description 取消订阅确认
-     * @param ctx
-     * @param msg
-     */
-    private void onUnsuback(ChannelHandlerContext ctx, MqttUnsubAckMessage msg) {
-
-    }
-
-    /**
-     * @description ping请求
-     * @param ctx
-     * @param msg
-     */
-    private void onPingreq(ChannelHandlerContext ctx, MqttMessage msg) {
-
-    }
-
-    /**
-     * @description ping 响应
-     * @param ctx
-     * @param msg
-     */
-    private void onPingresq(ChannelHandlerContext ctx, MqttMessage msg) {
-
-    }
-
-    /**
-     * @description 断开连接
-     * @param ctx
-     */
-    private void onDisconnect(ChannelHandlerContext ctx) {
-
-    }
-
-    /**
-     * @description
-     * @param args
-     */
-    public static void main(String[] args)
-    {
-        /*
-        String msg = "{\"deviceNum\":\"88888888\",\"jumpFlag\":0,\"msgId\":\"M20170829153611748025\",\"status\":1}";
-        StbReportMsg stbmsg= GsonJsonUtil.fromJson(msg, StbReportMsg.class);
-        System.out.println(stbmsg.getMsgType());
-        */
     }
 }
