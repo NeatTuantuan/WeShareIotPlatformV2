@@ -4,7 +4,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.mqtt.*;
 import io.netty.util.AttributeKey;
-import netty.message.Message;
 import netty.util.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
@@ -58,16 +57,11 @@ public class MqttServerHandler extends SimpleChannelInboundHandler<Object> {
         MqttPublishMessage message = (MqttPublishMessage) msg;
         //QoS = 1
         if (message.fixedHeader().qosLevel()==MqttQoS.AT_LEAST_ONCE){
-            byte[] messageBytes = new byte[message.payload().readableBytes()];
-            message.payload().getBytes(message.payload().readerIndex(),messageBytes);
-            Message message1 = new Message();
-            message1.setTopic(message.variableHeader().topicName());
-            message1.setMqttQoS(message.fixedHeader().qosLevel().value());
-            message1.setMessageBytes(messageBytes);
-            //怎么获得客户端clientId然后推送
-
             //返回ack
-
+            MqttPubAckMessage pubAckMessage = (MqttPubAckMessage) MqttMessageFactory.newMessage(
+                    new MqttFixedHeader(MqttMessageType.PUBACK, false, MqttQoS.AT_MOST_ONCE, false, 0),
+                    MqttMessageIdVariableHeader.from(message.variableHeader().packetId()), null);
+            ctx.channel().writeAndFlush(pubAckMessage);
         }
     }
     /**
@@ -124,7 +118,6 @@ public class MqttServerHandler extends SimpleChannelInboundHandler<Object> {
             return;
         }
         //TODO
-
         //会话已经存在该clientId的处理
         //遗嘱处理
         //心跳
