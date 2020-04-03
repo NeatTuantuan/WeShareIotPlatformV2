@@ -1,5 +1,6 @@
 package netty.deviceMessage;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.Data;
 
@@ -23,9 +24,9 @@ public class DeviceMessage {
     private String DEVICE_ID;
 
     /**
-     * 解析后的json对象
+     * 解析的json对象
      */
-    private JSONPObject formatData;
+    private JSONObject formatData;
 
     /**
      * 未被解析的byte数组

@@ -71,10 +71,10 @@ public class MqttServerHandler extends SimpleChannelInboundHandler<Object> {
         int msgId = message.variableHeader().messageId();
         List<MqttTopicSubscription> requestSubscriptions = message.payload().topicSubscriptions();
         for (MqttTopicSubscription subscription : requestSubscriptions){
-            if (StringUtils.isEmpty(subscription.topicName())){
-                ctx.close();
-                return;
-            }
+//            if (StringUtils.isEmpty(subscription.topicName())){
+//                ctx.close();
+//                return;
+//            }
         }
 //        获得相关主题的服务质量要求，用于返回码和处理保留的消息。并返回SUBACK报文
         List<Integer> grantedQosLevels = new ArrayList<>();
