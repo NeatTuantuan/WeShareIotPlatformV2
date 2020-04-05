@@ -59,9 +59,6 @@ public class ShellHandler extends SimpleChannelInboundHandler<DeviceMessage> {
 
 //            System.out.println(result);
 
-
-
-
         }else {
             //没有脚本，不做任何操作
             ctx.writeAndFlush(msg);
