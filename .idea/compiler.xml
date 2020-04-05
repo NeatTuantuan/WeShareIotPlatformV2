@@ -10,6 +10,8 @@
         <module name="WeShareIotPlatformV2" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="8" />
+    <bytecodeTargetLevel target="8">
+      <module name="weShareIotPlatformV2" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
