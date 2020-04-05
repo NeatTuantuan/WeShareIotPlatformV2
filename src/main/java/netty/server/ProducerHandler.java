@@ -3,6 +3,8 @@ package netty.server;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
+import java.util.HashMap;
+
 /**
  * @ClassName ProducerHandler
  * @Description TODO 生产者，将数据发送致特定topic
@@ -16,6 +18,6 @@ public class ProducerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 //        super.channelRead(ctx, msg);
-
+        String s = "asd";
     }
 }
