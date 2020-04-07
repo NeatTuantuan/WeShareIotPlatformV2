@@ -47,4 +47,27 @@ public class DigitTypeRule extends Rule{
         }
     }
 
+    public double getSTART_SECTION() {
+        return START_SECTION;
+    }
+
+    public void setSTART_SECTION(double START_SECTION) {
+        this.START_SECTION = START_SECTION;
+    }
+
+    public double getEND_SECTION() {
+        return END_SECTION;
+    }
+
+    public void setEND_SECTION(double END_SECTION) {
+        this.END_SECTION = END_SECTION;
+    }
+
+    public int getTriggerCondition() {
+        return triggerCondition;
+    }
+
+    public void setTriggerCondition(int triggerCondition) {
+        this.triggerCondition = triggerCondition;
+    }
 }

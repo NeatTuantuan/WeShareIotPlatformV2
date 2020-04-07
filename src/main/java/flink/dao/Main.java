@@ -2,6 +2,7 @@ package flink.dao;
 
 import com.alibaba.fastjson.JSONObject;
 import netty.deviceMessage.DeviceMessage;
+import redis.RedisOps;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,21 +30,22 @@ public class Main {
     }
 
     public static void test(DeviceMessage deviceMessage){
-        //从Reids中取处所有变量报警规则
+        //从Reids中取出所有变量报警规则
         HashSet<VariableRule> set = new HashSet<>();
-
         VariableRule variableRule = new VariableRule();
         variableRule.setDeviceID("1");
         variableRule.setAttribute("test");
         variableRule.setVariableFlag(1);
         set.add(variableRule);
+//        VariableRule variableRule1 = (VariableRule) RedisOps.getObject("test:3");从redis取出对象
 
         //遍历set，查看有没有设备id对应的规则
         Iterator<VariableRule> it = set.iterator();
         while (it.hasNext()) {
             VariableRule rule = it.next();
             //如果有对应规则
-            if (rule.getDeviceID() == deviceMessage.getDEVICE_ID()){
+            if (rule.getDeviceID() == deviceMessage.getDEVICE_ID()){//从Variable取出的对象getDeviceId这个==判断不了相等 进不去循环，equals就可以
+//                if (rule.getDeviceID().equals(deviceMessage.getDEVICE_ID())){
                 switch (rule.getVariableFlag()){
                     case 0:
                         rule.setBoolTypeRule(new BoolTypeRule());
