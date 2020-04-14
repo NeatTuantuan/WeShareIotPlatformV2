@@ -30,7 +30,7 @@ public class FileUtil {
 
                 byte[] buffer = new byte[1024];
                 int size = 0;
-                while ((size = in.read(buffer)) != -1) {
+                while ((size = in.read(buffer)) != -1){
                     out.write(buffer, 0, size);
                 }
 

@@ -26,7 +26,7 @@ public class UserClassLoader extends ClassLoader {
         // 获取该class文件字节码数组
         byte[] classData = FileUtil.getData(path);
 
-        if (classData != null) {
+        if (classData != null){
             // 将class的字节码数组转换成Class类的实例
             log = defineClass(name, classData, 0, classData.length);
         }

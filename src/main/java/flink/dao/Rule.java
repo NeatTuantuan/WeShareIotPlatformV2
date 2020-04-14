@@ -24,7 +24,7 @@ public class Rule {
     private int flag = 0;
 
     //判断函数
-    public Boolean Judge(DeviceMessage deviceMessage,String attribute){return false;};
+    public Boolean Judge(DeviceMessage deviceMessage,String attribute){return false;}
 
 //    public Rule(String attribute){
 //        this.attribute = attribute;
@@ -33,4 +33,27 @@ public class Rule {
 //    public Rule(){
 //    }
 
+    public String getDeviceID() {
+        return DeviceID;
+    }
+
+    public void setDeviceID(String deviceID) {
+        DeviceID = deviceID;
+    }
+
+    public String getProductID() {
+        return productID;
+    }
+
+    public void setProductID(String productID) {
+        this.productID = productID;
+    }
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
+    }
 }

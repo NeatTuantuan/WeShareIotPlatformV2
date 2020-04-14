@@ -52,7 +52,7 @@ under the License.
     </repositories>
 
     <dependencies>
-        <!-- Apache Flink dependencies -->
+        <!-- Apache FlinkUtils dependencies -->
         <!-- These dependencies are provided, because they should not be packaged into the JAR file. -->
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -125,6 +125,11 @@ under the License.
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
             <version>2.11.2</version>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.9.0</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
