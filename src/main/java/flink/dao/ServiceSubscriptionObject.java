@@ -28,4 +28,28 @@ public class ServiceSubscriptionObject {
      *上报消息、状态变化、生命周期变更，报警
      */
     private ArrayList<String> pushType;
+
+    public ServiceConsumerGroup getServiceConsumerGroup() {
+        return serviceConsumerGroup;
+    }
+
+    public void setServiceConsumerGroup(ServiceConsumerGroup serviceConsumerGroup) {
+        this.serviceConsumerGroup = serviceConsumerGroup;
+    }
+
+    public ArrayList<String> getDeviceList() {
+        return deviceList;
+    }
+
+    public void setDeviceList(ArrayList<String> deviceList) {
+        this.deviceList = deviceList;
+    }
+
+    public ArrayList<String> getPushType() {
+        return pushType;
+    }
+
+    public void setPushType(ArrayList<String> pushType) {
+        this.pushType = pushType;
+    }
 }

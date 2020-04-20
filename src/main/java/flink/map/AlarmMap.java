@@ -1,13 +1,15 @@
 package flink.map;
 
-import flink.dao.ServiceSubscriptionObject;
+import com.alibaba.fastjson.JSONObject;
 import flink.dao.VariableRule;
+import netty.deviceMessage.DeviceMessage;
 import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.configuration.Configuration;
+import redis.RedisConnection;
+import redis.RedisOps;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+
 
 /**
  * @ClassName AlarmMap
@@ -23,31 +25,60 @@ public class AlarmMap extends RichMapFunction<String,String> {
     public void open(Configuration parameters) throws Exception {
         //获取redis链接
         super.open(parameters);
+        RedisConnection.getJedis();
     }
 
     //这里的参数s应该是从kafka里反序列化拿出来的json串
+    //json串的格式为：{"PRODUCT_ID":"XXX","DEVICE_ID":"XXX","formatData":{"temperature":"XXX","kaiguan":"XXX"}}
     @Override
     public String map(String s) throws Exception {
         //从redis链接里拿出产品id对应的规则然后反序列化成对象
         //redis里告警规则应该为hash类型，一类产品对应一个hash表（表名为设备id），里面key对应一个自增编号，value对应规则的序列化字符串（因为一个设备可以有多个规则）
         //判断逻辑应该是：每次先看redis里有没有设备id对应的hash表，有的话从hash表中取出来一个规则Map
-        //下面是一些简单思路
 
-        HashMap<Integer,VariableRule> map = new HashMap<>();
-        Iterator iter = map.keySet().iterator();
-        //遍历规则
-        while (iter.hasNext()) {
-            int key = (int) iter.next();
-            VariableRule val = map.get(key);
-            //判断
-            boolean flag = val.Judge(s);
-            //如果flag是true，说明满足告警条件，需要向web端发送一个http告警请求，提交给线程池异步处理
+
+        //Redis当前 key="1001"中存了两条规则，分别是：
+//        VariableRule(variableFlag=0, boolTypeRule=BoolTypeRule(triggerCondition=1), digitTypeRule=null, attribute=kaiguan)
+//        VariableRule(variableFlag=1, boolTypeRule=null, digitTypeRule=DigitTypeRule(START_SECTION=1.0, END_SECTION=5.0, triggerCondition=2), attribute=temperature)
+        //从kafka中拿数据，主要拿取设备id
+        String line = s.toString();
+        System.out.println(line);
+        DeviceMessage deviceMessage = new DeviceMessage();
+        JSONObject jsonObject = new JSONObject().parseObject(line);
+        deviceMessage.setPRODUCT_ID(jsonObject.getString("PRODUCT_ID"));
+        deviceMessage.setDEVICE_ID(jsonObject.getString("DEVICE_ID"));
+        deviceMessage.setFormatData(jsonObject.getJSONObject("formatData"));
+        System.out.println(deviceMessage);
+//        deviceMessage.setMETA_DATA();
+
+        HashMap<Integer, VariableRule> map = RedisOps.getObjectHashAll(jsonObject.getString("DEVICE_ID"));
+        if(map.size()!=0) {
+            int i =0;
+            for (HashMap.Entry<Integer, VariableRule> entry : map.entrySet()) {
+                VariableRule rule = entry.getValue();
+                boolean flag = rule.Judge(deviceMessage);
+                //如果flag是true，说明满足告警条件，需要向web端发送一个http告警请求，提交给线程池异步处理
+                if(flag == true){
+                      i++;
+                }
+                else{
+                    System.out.println("不符合报警规则");
+                    break;
+                }
+            }
+            if(i == map.size()){
+                System.out.println("符合报警规则发出告警！需要向web端发送一个http告警请求，提交给线程池异步处理");
+            }
         }
+        else{
+            System.out.println("无该设备相应的规则");
+            }
         return s;
     }
 
     @Override
     public void close() throws Exception {
         super.close();
+        RedisConnection.getJedis().close();
     }
 }

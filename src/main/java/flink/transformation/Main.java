@@ -1,12 +1,12 @@
 package flink.transformation;
 
+import flink.map.AlarmMap;
 import flink.map.ServiceSubscriptionMap;
 import flink.utils.FlinkUtils;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
-import org.apache.flink.streaming.util.serialization.JSONKeyValueDeserializationSchema;
+
 
 import java.util.Properties;
 
@@ -19,7 +19,7 @@ import java.util.Properties;
  * @Attention Copyright (C), 2004-2019, BDILab, XiDian University
  **/
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         //kafka参数的properties
         Properties properties = new Properties();
         //指定kafka的broker地址
@@ -29,8 +29,10 @@ public class Main {
         //未纪录偏移量，从头开始消费
         properties.setProperty("auto.offset.reset","earliest");
 
-        DataStream<String> line = FlinkUtils.createKafkaStream(properties,new SimpleStringSchema(),"IOT");
-
-        line.map(new ServiceSubscriptionMap());
+        DataStream<String> line = FlinkUtils.createKafkaStream(properties,new SimpleStringSchema(),"IOT1");
+        line.map(new AlarmMap());
+//        line.map(new ServiceSubscriptionMap());
+        StreamExecutionEnvironment env = FlinkUtils.getEnv();
+        env.execute();
     }
 }

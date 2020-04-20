@@ -23,4 +23,8 @@ public class FlinkUtils {
         FlinkKafkaConsumer<String> kafkaSource = new FlinkKafkaConsumer<>(topicName, new SimpleStringSchema(), kafkaProperties);
         return env.addSource(kafkaSource);
     }
+
+    public static StreamExecutionEnvironment getEnv() {
+        return env;
+    }
 }

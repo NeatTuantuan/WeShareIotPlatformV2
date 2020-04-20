@@ -3,6 +3,7 @@ package flink.dao;
 import lombok.Data;
 import netty.deviceMessage.DeviceMessage;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -15,7 +16,9 @@ import java.util.HashSet;
  * @Attention Copyright (C), 2004-2019, BDILab, XiDian University
  **/
 @Data
-public class Rule {
+public class Rule implements Serializable{
+
+    private static final long serialVersionUID = 1L;
     //规则对应设备id
     private String DeviceID;
     //规则对应产品id

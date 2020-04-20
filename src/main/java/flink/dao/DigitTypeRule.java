@@ -3,6 +3,8 @@ package flink.dao;
 import lombok.Data;
 import netty.deviceMessage.DeviceMessage;
 
+import java.io.Serializable;
+
 /**
  * @ClassName DigitTypeRule
  * @Description TODO 数字类型规则。区间划分
@@ -12,7 +14,9 @@ import netty.deviceMessage.DeviceMessage;
  * @Attention Copyright (C), 2004-2019, BDILab, XiDian University
  **/
 @Data
-public class DigitTypeRule extends Rule {
+public class DigitTypeRule extends Rule implements Serializable{
+
+    private static final long serialVersionUID = 1L;
 
     //区间起始值
     private double START_SECTION = 0;
