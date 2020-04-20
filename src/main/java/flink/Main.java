@@ -1,10 +1,11 @@
 package flink;
 
-import flink.dao.BoolTypeRule;
-import flink.dao.DigitTypeRule;
-import flink.dao.VariableRule;
+import flink.dao.*;
 import netty.deviceMessage.DeviceMessage;
+import redis.RedisOps;
 
+import javax.xml.ws.Service;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -19,20 +20,16 @@ import java.util.Iterator;
  **/
 public class Main {
     public static void main(String[] args) {
-//        DeviceMessage deviceMessage = new DeviceMessage();
-//        JSONObject jsonObject = new JSONObject();
-//        jsonObject.put("test",1);
-//        deviceMessage.setFormatData(jsonObject);
+//        ServiceConsumerGroup consumerGroup = new ServiceConsumerGroup();
+//        consumerGroup.setGroupName("test");
+//        consumerGroup.setGroupId(1);
+//        ArrayList<ConsumerClient> client = new ArrayList<>();
+//        client.add(new ConsumerClient());
+//        consumerGroup.setClient(client);
 //
-//        deviceMessage.setDEVICE_ID("1");
-//
-//        test(deviceMessage);
+//        RedisOps.setObject("consumerGroup", consumerGroup);//序列化
+//        ServiceConsumerGroup group = (ServiceConsumerGroup) RedisOps.getObject("consumerGroup");//反序列化
 
-//        System.out.println(deviceMessage.getFormatData().get("test"));
-        System.out.println();
-    }
-
-    public static void test(DeviceMessage deviceMessage){
 
     }
 }

@@ -2,6 +2,9 @@ package flink.dao;
 
 import lombok.Data;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 /**
  * @ClassName ServiceConsumerGroup
  * @Description TODO 消费组实体类
@@ -11,17 +14,26 @@ import lombok.Data;
  * @Attention Copyright (C), 2004-2019, BDILab, XiDian University
  **/
 @Data
-public class ServiceConsumerGroup {
+public class ServiceConsumerGroup implements Serializable {
     /**
      * 消费组名称
      */
     private String groupName;
     /**
-     * 消费组IP
+     * 消费组ID
      */
-    private String groupIp;
+    private int groupId;
     /**
-     * 消费组端口
+     * 消费组客户端集合
      */
-    private int port;
+    private ArrayList<ConsumerClient> client;
+    /**
+     * 产品名称列表
+     */
+    private ArrayList<String> deviceList;
+    /**
+     * 推送类型链表：
+     *上报消息、状态变化、生命周期变更，报警
+     */
+    private ArrayList<String> pushType;
 }

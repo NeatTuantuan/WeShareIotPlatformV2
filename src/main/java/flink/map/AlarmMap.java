@@ -1,11 +1,9 @@
 package flink.map;
 
-import flink.dao.ServiceSubscriptionObject;
 import flink.dao.VariableRule;
 import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.configuration.Configuration;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -40,7 +38,7 @@ public class AlarmMap extends RichMapFunction<String,String> {
             int key = (int) iter.next();
             VariableRule val = map.get(key);
             //判断
-            boolean flag = val.Judge(s);
+//            boolean flag = val.Judge();
             //如果flag是true，说明满足告警条件，需要向web端发送一个http告警请求，提交给线程池异步处理
         }
         return s;

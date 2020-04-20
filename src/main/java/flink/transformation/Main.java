@@ -2,11 +2,14 @@ package flink.transformation;
 
 import flink.map.ServiceSubscriptionMap;
 import flink.utils.FlinkUtils;
+import org.apache.flink.api.common.functions.FlatMapFunction;
+import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
 import org.apache.flink.streaming.util.serialization.JSONKeyValueDeserializationSchema;
+import org.apache.flink.util.Collector;
 
 import java.util.Properties;
 
@@ -19,7 +22,7 @@ import java.util.Properties;
  * @Attention Copyright (C), 2004-2019, BDILab, XiDian University
  **/
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         //kafka参数的properties
         Properties properties = new Properties();
         //指定kafka的broker地址
@@ -31,6 +34,13 @@ public class Main {
 
         DataStream<String> line = FlinkUtils.createKafkaStream(properties,new SimpleStringSchema(),"IOT");
 
-        line.map(new ServiceSubscriptionMap());
+        line.map(new MapFunction<String, String>() {
+            @Override
+            public String map(String s) throws Exception {
+                return s+":xuyiming";
+            }
+        }).print();
+
+        FlinkUtils.getEnv().execute("main");
     }
 }

@@ -1,10 +1,15 @@
 package flink.map;
 
-import flink.dao.ServiceSubscriptionObject;
+import flink.dao.ServiceConsumerGroup;
 import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.configuration.Configuration;
+import redis.RedisOps;
 
+import javax.xml.ws.Service;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * @ClassName ServiceSubscriptionMap
@@ -16,21 +21,30 @@ import java.util.ArrayList;
  **/
 public class ServiceSubscriptionMap extends RichMapFunction<String,String> {
 
+    private HashMap<String,ServiceConsumerGroup> consumerGroupMap = null;
+    private Iterator it = consumerGroupMap.entrySet().iterator();
+
     @Override
     public void open(Configuration parameters) throws Exception {
+        consumerGroupMap = new HashMap<>();
+        HashSet<String> keys = RedisOps.keys("*");
+        for (String key : keys) {
+            consumerGroupMap.put(key,(ServiceConsumerGroup)RedisOps.getObject(key));
+        }
         super.open(parameters);
     }
     @Override
     public String map(String s) throws Exception {
-        //从redis获取服务端订阅实体列表
-        ArrayList<ServiceSubscriptionObject> list = new ArrayList<>();
-        //遍历服务端订阅实体类
-        for (ServiceSubscriptionObject object : list){
-            //若含有设备id
-            if (object.getDeviceList().contains("s")){
-                //提交给线程池异步发送http请求
+
+        while (it.hasNext()) {
+            String key = (String) it.next();
+            ServiceConsumerGroup group = consumerGroupMap.get(key);
+            //如果某消费者组中有该设备
+            if (group.getDeviceList().contains(s)){
+                //根据pushType选择推送信息，在线程池异步发送消息
             }
         }
+
         return null;
     }
 

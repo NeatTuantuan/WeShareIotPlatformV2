@@ -2,6 +2,7 @@ package kafka;
 
 import netty.util.PropertiesUtil;
 
+import javax.websocket.server.ServerEndpoint;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
