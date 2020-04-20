@@ -32,4 +32,36 @@ public class DeviceMessage {
      * 未被解析的byte数组
      */
     private byte[] META_DATA;
+
+    public String getPRODUCT_ID() {
+        return PRODUCT_ID;
+    }
+
+    public void setPRODUCT_ID(String PRODUCT_ID) {
+        this.PRODUCT_ID = PRODUCT_ID;
+    }
+
+    public String getDEVICE_ID() {
+        return DEVICE_ID;
+    }
+
+    public void setDEVICE_ID(String DEVICE_ID) {
+        this.DEVICE_ID = DEVICE_ID;
+    }
+
+    public JSONObject getFormatData() {
+        return formatData;
+    }
+
+    public void setFormatData(JSONObject formatData) {
+        this.formatData = formatData;
+    }
+
+    public byte[] getMETA_DATA() {
+        return META_DATA;
+    }
+
+    public void setMETA_DATA(byte[] META_DATA) {
+        this.META_DATA = META_DATA;
+    }
 }

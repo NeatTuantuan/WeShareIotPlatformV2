@@ -12,12 +12,12 @@ import netty.deviceMessage.DeviceMessage;
  * @Attention Copyright (C), 2004-2019, BDILab, XiDian University
  **/
 @Data
-public class DigitTypeRule extends Rule{
+public class DigitTypeRule extends Rule {
 
     //区间起始值
     private double START_SECTION = 0;
     //区间结束值
-    private double END_SECTION = 1;
+    private double END_SECTION = 2;
     /**
      * 触发条件：0-大于
      * 1-小与
@@ -47,4 +47,27 @@ public class DigitTypeRule extends Rule{
         }
     }
 
+    public double getSTART_SECTION() {
+        return START_SECTION;
+    }
+
+    public void setSTART_SECTION(double START_SECTION) {
+        this.START_SECTION = START_SECTION;
+    }
+
+    public double getEND_SECTION() {
+        return END_SECTION;
+    }
+
+    public void setEND_SECTION(double END_SECTION) {
+        this.END_SECTION = END_SECTION;
+    }
+
+    public int getTriggerCondition() {
+        return triggerCondition;
+    }
+
+    public void setTriggerCondition(int triggerCondition) {
+        this.triggerCondition = triggerCondition;
+    }
 }
