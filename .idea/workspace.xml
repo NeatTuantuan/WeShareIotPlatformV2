@@ -2,34 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ccf9932-b210-4fea-93b7-6b8489fea930" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/flink/dao/ConsumerClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/flink/utils/ThreadPool.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/flink/utils/WebSocket.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/log4j.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/flink/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/flink/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/flink/dao/ServiceConsumerGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/flink/dao/ServiceConsumerGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/flink/dao/ServiceSubscriptionObject.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/flink/map/AlarmMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/flink/map/AlarmMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/flink/map/ServiceSubscriptionMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/flink/map/ServiceSubscriptionMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/flink/transformation/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/flink/transformation/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/flink/utils/FlinkUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/flink/utils/FlinkUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/kafka/SingleKafkaProps.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/kafka/SingleKafkaProps.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/redis/RedisOps.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redis/RedisOps.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/redis/RedisTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/redis/RedisTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/systemConfig.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/flink/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/flink/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/flink/dao/ServiceConsumerGroup.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/flink/dao/ServiceConsumerGroup.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/flink/dao/ServiceSubscriptionObject.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/flink/map/AlarmMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/flink/map/AlarmMap.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/flink/map/ServiceSubscriptionMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/flink/map/ServiceSubscriptionMap.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/flink/transformation/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/flink/transformation/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/flink/utils/FlinkUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/flink/utils/FlinkUtils.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/kafka/Main2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/redis/RedisOps.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redis/RedisOps.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/redis/RedisTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/redis/RedisTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/systemConfig.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/flink/utils/WebSocket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/flink/utils/WebSocketServer.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -41,17 +15,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="WebSocket.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/flink/utils/WebSocket.java">
+      <file leaf-file-name="WebSocketServer.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/flink/utils/WebSocketServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="610">
-              <caret line="64" column="8" selection-start-line="64" selection-start-column="8" selection-end-line="64" selection-end-column="8" />
+            <state relative-caret-position="393">
+              <caret line="32" column="40" lean-forward="true" selection-start-line="32" selection-start-column="40" selection-end-line="32" selection-end-column="40" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#252#253#0" expanded="true" />
                 <element signature="e#305#306#0" expanded="true" />
                 <element signature="e#1104#1105#0" expanded="true" />
                 <element signature="e#1125#1126#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ServiceSubscriptionMap.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/flink/map/ServiceSubscriptionMap.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="343">
+              <caret line="30" column="33" selection-start-line="30" selection-start-column="33" selection-end-line="30" selection-end-column="33" />
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -97,6 +83,7 @@
         <option value="$PROJECT_DIR$/src/main/java/kafka/SingleKafkaProps.java" />
         <option value="$PROJECT_DIR$/src/main/java/flink/utils/ThreadPool.java" />
         <option value="$PROJECT_DIR$/src/main/java/flink/utils/WebSocket.java" />
+        <option value="$PROJECT_DIR$/src/main/java/flink/utils/WebSocketServer.java" />
       </list>
     </option>
   </component>
@@ -153,6 +140,24 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="flink" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WeShareIotPlatformV2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WeShareIotPlatformV2" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="flink" type="462c0819:PsiDirectoryNode" />
+              <item name="map" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WeShareIotPlatformV2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WeShareIotPlatformV2" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="flink" type="462c0819:PsiDirectoryNode" />
+              <item name="transformation" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="WeShareIotPlatformV2" type="b2602c69:ProjectViewProjectNode" />
@@ -336,12 +341,12 @@
       <workItem from="1586434644621" duration="13008000" />
       <workItem from="1586746534767" duration="67000" />
       <workItem from="1586830527513" duration="3667000" />
-      <workItem from="1586944671641" duration="13296000" />
+      <workItem from="1586944671641" duration="17194000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30038000" />
+    <option name="totallyTimeSpent" value="33936000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -368,7 +373,7 @@
       <window_info anchor="bottom" id="Version Control" order="3" />
       <window_info anchor="bottom" id="Run" order="7" weight="0.6073113" />
       <window_info anchor="bottom" id="Terminal" order="1" />
-      <window_info active="true" content_ui="combo" id="Project" order="5" sideWeight="0.4976415" visible="true" weight="0.25208333" />
+      <window_info active="true" content_ui="combo" id="Project" order="5" sideWeight="0.4976415" visible="true" weight="0.21319444" />
       <window_info anchor="right" id="Bean Validation" />
       <window_info anchor="bottom" id="Find" order="6" weight="0.32900944" />
       <window_info anchor="right" id="Theme Preview" order="2" />
@@ -663,13 +668,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/log4j.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="14" column="10" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/flink/utils/FlinkUtils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="407">
@@ -744,16 +742,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/flink/map/ServiceSubscriptionMap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="562">
-          <caret line="41" column="26" selection-start-line="41" selection-start-column="26" selection-end-line="41" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/flink/utils/ThreadPool.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
@@ -764,10 +752,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/flink/utils/WebSocket.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/log4j.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="610">
-          <caret line="64" column="8" selection-start-line="64" selection-start-column="8" selection-end-line="64" selection-end-column="8" />
+        <state relative-caret-position="138">
+          <caret line="6" column="23" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/flink/map/ServiceSubscriptionMap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="343">
+          <caret line="30" column="33" selection-start-line="30" selection-start-column="33" selection-end-line="30" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/flink/utils/WebSocketServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="393">
+          <caret line="32" column="40" lean-forward="true" selection-start-line="32" selection-start-column="40" selection-end-line="32" selection-end-column="40" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#252#253#0" expanded="true" />

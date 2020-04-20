@@ -9,7 +9,7 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 
 /**
- * @ClassName WebSocket
+ * @ClassName WebSocketServer
  * @Description TODO
  * @Author tuantuan
  * @Date 2020/4/20 上午11:42
@@ -17,11 +17,11 @@ import java.io.IOException;
  * @Attention Copyright (C), 2004-2019, BDILab, XiDian University
  **/
 @ServerEndpoint(value = "/webSocket")
-public class WebSocket {
+public class WebSocketServer {
     private Logger logger = Logger.getLogger(this.getClass());
     private Session session;
 
-    public WebSocket(){
+    public WebSocketServer(){
         System.out.println("WebSocketConnecting..");
     }
 
@@ -73,7 +73,7 @@ public class WebSocket {
         error.printStackTrace();
     }
 
-    public void sendMessage(int status,String message,Object datas) throws IOException{
+    public void sendMessage(int status, String message, Object datas) throws IOException{
         JSONObject result = new JSONObject();
         result.put("status", status);
         result.put("message", message);
