@@ -3,6 +3,8 @@ package flink.dao;
 import lombok.Data;
 import netty.deviceMessage.DeviceMessage;
 
+import java.io.Serializable;
+
 /**
  * @ClassName BoolTypeRule
  * @Description TODO
@@ -12,7 +14,9 @@ import netty.deviceMessage.DeviceMessage;
  * @Attention Copyright (C), 2004-2019, BDILab, XiDian University
  **/
 @Data
-public class BoolTypeRule extends Rule {
+public class BoolTypeRule extends Rule implements Serializable{
+
+    private static final long serialVersionUID = 1L;
     /**
      * 触发条件：0或者1
      */

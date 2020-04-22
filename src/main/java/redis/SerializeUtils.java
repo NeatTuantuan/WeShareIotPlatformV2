@@ -16,7 +16,7 @@ public class SerializeUtils {
     /*
     * 序列化
     * */
-    public static byte[] serizlize(Object object){
+    public static byte[] serialize(Object object){
         ObjectOutputStream oos = null;
         ByteArrayOutputStream baos = null;
         try {

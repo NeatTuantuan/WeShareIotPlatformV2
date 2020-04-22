@@ -31,7 +31,7 @@ public class MysqlSink extends RichSinkFunction<String> {
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement("INSERT INTO category () VALUES (?,?,?)");
-            statement.setString();
+//            statement.setString();
             statement.executeUpdate();
             statement.close();
         }finally {

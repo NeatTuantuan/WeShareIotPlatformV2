@@ -17,6 +17,8 @@ import java.util.HashSet;
  **/
 @Data
 public class Rule implements Serializable{
+
+    private static final long serialVersionUID = 1L;
     //规则对应设备id
     private String DeviceID;
     //规则对应产品id

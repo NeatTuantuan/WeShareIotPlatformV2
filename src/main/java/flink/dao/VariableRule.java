@@ -6,6 +6,8 @@ import flink.dao.Rule;
 import lombok.Data;
 import netty.deviceMessage.DeviceMessage;
 
+import java.io.Serializable;
+
 /**
  * @ClassName VariableRule
  * @Description TODO
@@ -15,7 +17,9 @@ import netty.deviceMessage.DeviceMessage;
  * @Attention Copyright (C), 2004-2019, BDILab, XiDian University
  **/
 @Data
-public class VariableRule extends Rule {
+public class VariableRule extends Rule implements Serializable{
+
+    private static final long serialVersionUID = 1L;
     /**
      * 规则flag：0-bool类型规则
      * 1-digit类型规则

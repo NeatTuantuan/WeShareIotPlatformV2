@@ -13,7 +13,7 @@ import lombok.Data;
  * @Attention Copyright (C), 2004-2019, BDILab, XiDian University
  **/
 @Data
-public class DeviceMessage {
+public class DeviceMessage{
     /**
      * 产品ID
      */

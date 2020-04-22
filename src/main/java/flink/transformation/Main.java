@@ -1,5 +1,6 @@
 package flink.transformation;
 
+import flink.map.AlarmMap;
 import flink.map.ServiceSubscriptionMap;
 import flink.utils.FlinkUtils;
 import org.apache.flink.api.common.functions.FlatMapFunction;
@@ -32,15 +33,20 @@ public class Main {
         //未纪录偏移量，从头开始消费
         properties.setProperty("auto.offset.reset","earliest");
 
-        DataStream<String> line = FlinkUtils.createKafkaStream(properties,new SimpleStringSchema(),"IOT");
-
-        line.map(new MapFunction<String, String>() {
-            @Override
-            public String map(String s) throws Exception {
-                return s+":xuyiming";
-            }
-        }).print();
-
-        FlinkUtils.getEnv().execute("main");
+//        DataStream<String> line = FlinkUtils.createKafkaStream(properties,new SimpleStringSchema(),"IOT");
+//
+//        line.map(new MapFunction<String, String>() {
+//            @Override
+//            public String map(String s) throws Exception {
+//                return s+":xuyiming";
+//            }
+//        }).print();
+//
+//        FlinkUtils.getEnv().execute("main");
+        DataStream<String> line = FlinkUtils.createKafkaStream(properties,new SimpleStringSchema(),"IOT1");
+        line.map(new AlarmMap());
+//        line.map(new ServiceSubscriptionMap());
+        StreamExecutionEnvironment env = FlinkUtils.getEnv();
+        env.execute();
     }
 }

@@ -26,7 +26,8 @@ public class FlinkUtils {
         return env.addSource(kafkaSource);
     }
 
-    public static StreamExecutionEnvironment getEnv(){
+
+    public static StreamExecutionEnvironment getEnv() {
         return env;
     }
 }
