@@ -3,8 +3,10 @@ package flink;
 import flink.dao.*;
 import netty.deviceMessage.DeviceMessage;
 import redis.RedisOps;
+import websocket.config.WebSocketServer;
 
 import javax.xml.ws.Service;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,7 +21,7 @@ import java.util.Iterator;
  * @Attention Copyright (C), 2004-2019, BDILab, XiDian University
  **/
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 //        ServiceConsumerGroup consumerGroup = new ServiceConsumerGroup();
 //        consumerGroup.setGroupName("test");
 //        consumerGroup.setGroupId(1);
@@ -29,7 +31,7 @@ public class Main {
 //
 //        RedisOps.setObject("consumerGroup", consumerGroup);//序列化
 //        ServiceConsumerGroup group = (ServiceConsumerGroup) RedisOps.getObject("consumerGroup");//反序列化
-
+        WebSocketServer.sendInfo("Asdasd","aaa");
 
     }
 }

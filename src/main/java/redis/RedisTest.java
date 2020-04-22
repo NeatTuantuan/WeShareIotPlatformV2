@@ -26,12 +26,10 @@ public class RedisTest {
         variableRule.setBoolTypeRule(boolTypeRule);
         variableRule.setDigitTypeRule(digitTypeRule);
 
-        RedisOps.setObject("test:2", variableRule);//序列化
+        RedisOps.setObject("test:3", variableRule);//序列化
         VariableRule variableRule1 = (VariableRule) RedisOps.getObject("test:3");//反序列化
 
         System.out.println(variableRule1);
         System.out.println(variableRule1.getDeviceID());
     }
-
-
 }

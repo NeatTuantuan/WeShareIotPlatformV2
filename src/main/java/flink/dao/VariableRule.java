@@ -25,6 +25,7 @@ public class VariableRule extends Rule {
     private BoolTypeRule boolTypeRule = null;
 
     private DigitTypeRule digitTypeRule = null;
+
     //规则字段
     private String attribute;
 
