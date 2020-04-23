@@ -64,4 +64,5 @@ public class DeviceMessage{
     public void setMETA_DATA(byte[] META_DATA) {
         this.META_DATA = META_DATA;
     }
+
 }

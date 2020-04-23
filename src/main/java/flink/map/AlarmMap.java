@@ -33,15 +33,11 @@ public class AlarmMap extends RichMapFunction<String,String> {
     //json串的格式为：{"PRODUCT_ID":"XXX","DEVICE_ID":"XXX","formatData":{"temperature":"XXX","kaiguan":"XXX"}}
     @Override
     public String map(String s) throws Exception {
-        //从redis链接里拿出产品id对应的规则然后反序列化成对象
-        //redis里告警规则应该为hash类型，一类产品对应一个hash表（表名为设备id），里面key对应一个自增编号，value对应规则的序列化字符串（因为一个设备可以有多个规则）
-        //判断逻辑应该是：每次先看redis里有没有设备id对应的hash表，有的话从hash表中取出来一个规则Map
-
         //Redis当前 key="1001"中存了两条规则，分别是：
 //        VariableRule(variableFlag=0, boolTypeRule=BoolTypeRule(triggerCondition=1), digitTypeRule=null, attribute=kaiguan)
 //        VariableRule(variableFlag=1, boolTypeRule=null, digitTypeRule=DigitTypeRule(START_SECTION=1.0, END_SECTION=5.0, triggerCondition=2), attribute=temperature)
         //从kafka中拿数据，主要拿取设备id
-        String line = s.toString();
+        String line = s;
         System.out.println(line);
         DeviceMessage deviceMessage = new DeviceMessage();
         JSONObject jsonObject = new JSONObject().parseObject(line);
@@ -56,6 +52,7 @@ public class AlarmMap extends RichMapFunction<String,String> {
             int i =0;
             for (HashMap.Entry<Integer, VariableRule> entry : map.entrySet()) {
                 VariableRule rule = entry.getValue();
+
                 boolean flag = rule.Judge(deviceMessage);
                 //如果flag是true，说明满足告警条件，需要向web端发送一个http告警请求，提交给线程池异步处理
                 if(flag == true){
@@ -72,7 +69,8 @@ public class AlarmMap extends RichMapFunction<String,String> {
         }
         else{
             System.out.println("无该设备相应的规则");
-            }
+        }
+
         return s;
     }
 

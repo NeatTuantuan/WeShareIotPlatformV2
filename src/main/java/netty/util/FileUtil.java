@@ -55,7 +55,7 @@ public class FileUtil {
      * @param path
      * @param fileNameList
      */
-    public static void getAllFileName(String path,ArrayList<String> fileNameList) {
+    public static void getAllFileName(String path,ArrayList<String> fileNameList) throws NullPointerException{
         //ArrayList<String> files = new ArrayList<String>();
         boolean flag = false;
         File file = new File(path);

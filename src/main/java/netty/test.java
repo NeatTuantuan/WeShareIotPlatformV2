@@ -1,5 +1,11 @@
 package netty;
 
+import com.alibaba.fastjson.JSONObject;
+import netty.deviceMessage.DeviceMessage;
+import netty.util.FileUtil;
+import netty.util.PropertiesUtil;
+
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 /**
@@ -12,7 +18,9 @@ import java.util.ResourceBundle;
  **/
 public class test {
     public static void main(String[] args) {
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("systemConfig");
-        System.out.println(resourceBundle.getString("IP"));
+        DeviceMessage deviceMessage = new DeviceMessage();
+        deviceMessage.setDEVICE_ID("test");
+        deviceMessage.setPRODUCT_ID("test2");
+        JSONObject.parseObject(deviceMessage.toString());
     }
 }

@@ -11,11 +11,7 @@ import java.util.ResourceBundle;
  * @Attention Copyright (C), 2004-2019, BDILab, XiDian University
  **/
 public class PropertiesUtil {
-    private static final ResourceBundle resourceBundle;
-
-    static{
-        resourceBundle = ResourceBundle.getBundle("systemConfig");
-    }
+    static ResourceBundle resourceBundle = ResourceBundle.getBundle("log4j");
 
     public static String getKey(String key){
         return resourceBundle.getString(key);
