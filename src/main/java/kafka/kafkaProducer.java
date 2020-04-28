@@ -31,7 +31,7 @@ public class kafkaProducer {
 //        kafkaProps.put("bootstrap.servers", PropertiesUtil.getKey("KAFKA_IP"));
 //        kafkaProps.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 //        kafkaProps.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        Producer<String, String> producer = new KafkaProducer<String, String>(SingleKafkaProps.getInstance());
+        Producer<String, String> producer = new KafkaProducer<String, String>(SingleKafkaProps.getProducerInstance());
 
         JSONObject jsonObject = new JSONObject();
         JSONObject object = new JSONObject();

@@ -5,6 +5,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.SimpleChannelInboundHandler;
 import kafka.SingleKafkaProps;
 import netty.deviceMessage.DeviceMessage;
+import netty.util.DeviceMessageJson;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.kafka.clients.producer.*;
 import org.slf4j.Logger;
@@ -28,10 +29,10 @@ public class ProducerHandler extends SimpleChannelInboundHandler<DeviceMessage> 
     protected void channelRead0(ChannelHandlerContext ctx, DeviceMessage msg) throws Exception {
         logger.info("----ProducerHandler----:"+msg.toString());
 
-        producer = new KafkaProducer<String, String>(SingleKafkaProps.getInstance());
+        producer = new KafkaProducer<String, String>(SingleKafkaProps.getProducerInstance());
 
         //这里只放了devicemessage的getFormatData字段，
-        ProducerRecord<String, String> producerRecord = new ProducerRecord<String, String>("TESTkafka2", msg.getFormatData().toJSONString());
+        ProducerRecord<String, String> producerRecord = new ProducerRecord<String, String>("TESTkafka2", DeviceMessageJson.deviceMessageToJson(msg).toJSONString());
 
         Future<RecordMetadata> future = producer.send(producerRecord,(RecordMetadata recordMetadata,Exception e)->
         {

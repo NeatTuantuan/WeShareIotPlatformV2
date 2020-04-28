@@ -1,16 +1,6 @@
 package flink;
 
-import flink.dao.*;
-import netty.deviceMessage.DeviceMessage;
-import redis.RedisOps;
-import websocket.config.WebSocketServer;
-
-import javax.xml.ws.Service;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 
 /**
  * @ClassName Main
@@ -31,7 +21,7 @@ public class Main {
 //
 //        RedisOps.setObject("consumerGroup", consumerGroup);//序列化
 //        ServiceConsumerGroup group = (ServiceConsumerGroup) RedisOps.getObject("consumerGroup");//反序列化
-        WebSocketServer.sendInfo("Asdasd","aaa");
+        System.out.println('9' < 58);
 
     }
 }

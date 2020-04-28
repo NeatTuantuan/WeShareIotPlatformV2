@@ -25,7 +25,7 @@ public class TimeClientHandler extends ChannelInboundHandlerAdapter {
     Timer time = new Timer();
     JSONObject jsonObject = new JSONObject();
     JSONObject formatData = new JSONObject();
-    Date date = new Date();
+    Date date;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
@@ -36,6 +36,8 @@ public class TimeClientHandler extends ChannelInboundHandlerAdapter {
         time.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+                date = new Date();
+
                 formatData.put("temperature",36.5);
                 formatData.put("switch",1);
                 formatData.put("time",simpleDateFormat.format(date));
@@ -54,7 +56,7 @@ public class TimeClientHandler extends ChannelInboundHandlerAdapter {
                  */
                 ctx.writeAndFlush(respByteBuf);
             }
-        },100,2000);
+        },100,5000);
 
     }
 
