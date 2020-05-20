@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * @ClassName ServiceConsumerGroup
@@ -16,24 +17,24 @@ import java.util.ArrayList;
 @Data
 public class ServiceConsumerGroup implements Serializable {
     /**
-     * 消费组名称
+     * 消费者组ID
      */
-    private String groupName;
-    /**
-     * 消费组ID
-     */
-    private int groupId;
+    private String consumerGroupId;
     /**
      * 消费组客户端集合
      */
     private ArrayList<ConsumerClient> client;
     /**
-     * 产品名称列表
+     * 设备列表
      */
     private ArrayList<String> deviceList;
     /**
      * 推送类型链表：
-     *上报消息、状态变化、生命周期变更，报警
+     *1-设备上报消息
+     * 2-设备状态变化
+     * 3-设备生命周期变化
+     * 4-设备报警
+     * 5-平台远程控制
      */
-    private ArrayList<String> pushType;
+    private HashSet<Integer> pushType;
 }

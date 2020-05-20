@@ -1,7 +1,12 @@
 package flink.map;
 
+import flink.dao.AlarmInfo;
+import flink.dao.ConsumerGroupInfo;
 import flink.dao.ServiceConsumerGroup;
+import netty.deviceMessage.DeviceMessage;
 import org.apache.flink.api.common.functions.RichMapFunction;
+import org.apache.flink.api.java.tuple.Tuple2;
+import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.configuration.Configuration;
 import redis.RedisOps;
 
@@ -19,22 +24,24 @@ import java.util.Iterator;
  * @Version 1.0
  * @Attention Copyright (C), 2004-2019, BDILab, XiDian University
  **/
-public class ServiceSubscriptionMap extends RichMapFunction<String,String> {
+public class ServiceSubscriptionMap extends RichMapFunction< Tuple2<DeviceMessage,ArrayList<AlarmInfo>>
+        ,Tuple3<DeviceMessage,ArrayList<AlarmInfo>,ConsumerGroupInfo>> {
 
     private HashMap<String,ServiceConsumerGroup> consumerGroupMap = null;
     private Iterator it = consumerGroupMap.entrySet().iterator();
 
     @Override
     public void open(Configuration parameters) throws Exception {
+        super.open(parameters);
+    }
+
+    @Override
+    public Tuple3<DeviceMessage,ArrayList<AlarmInfo>,ConsumerGroupInfo> map(Tuple2<DeviceMessage,ArrayList<AlarmInfo>> s) throws Exception {
         consumerGroupMap = new HashMap<>();
         HashSet<String> keys = RedisOps.keys("*");
         for (String key : keys) {
             consumerGroupMap.put(key,(ServiceConsumerGroup)RedisOps.getObject(key));
         }
-        super.open(parameters);
-    }
-    @Override
-    public String map(String s) throws Exception {
 
         while (it.hasNext()) {
             String key = (String) it.next();

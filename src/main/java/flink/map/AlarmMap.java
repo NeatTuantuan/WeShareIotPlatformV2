@@ -1,17 +1,23 @@
 package flink.map;
 
 
-import com.alibaba.fastjson.JSONObject;
+import flink.dao.AlarmInfo;
+import flink.dao.ConsumerGroupInfo;
 import flink.dao.VariableRule;
+import flink.utils.Judgement;
 import netty.deviceMessage.DeviceMessage;
+import netty.util.DeviceMessageJson;
 import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
+import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.configuration.Configuration;
 import redis.RedisConnection;
 import redis.RedisOps;
 
-import javax.persistence.Tuple;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 /**
@@ -22,8 +28,10 @@ import java.util.HashMap;
  * @Version 1.0
  * @Attention Copyright (C), 2004-2019, BDILab, XiDian University
  **/
-public class AlarmMap extends RichMapFunction<String, Tuple2<String,String>> {
+public class AlarmMap extends RichMapFunction<String, Tuple2<DeviceMessage,ArrayList<AlarmInfo>>> {
     //RedisConnection里redis链接最好单例模式，节省资源
+    //存放告警信息实体类的集合
+    ArrayList<AlarmInfo> alarmInfos;
     @Override
     public void open(Configuration parameters) throws Exception {
         //获取redis链接
@@ -32,44 +40,26 @@ public class AlarmMap extends RichMapFunction<String, Tuple2<String,String>> {
     }
 
     @Override
-    public Tuple2<String,String> map(String s) throws Exception {
-        //Redis当前 key="1001"中存了两条规则，分别是：
-//        VariableRule(variableFlag=0, boolTypeRule=BoolTypeRule(triggerCondition=1), digitTypeRule=null, attribute=kaiguan)
-//        VariableRule(variableFlag=1, boolTypeRule=null, digitTypeRule=DigitTypeRule(START_SECTION=1.0, END_SECTION=5.0, triggerCondition=2), attribute=temperature)
-        //从kafka中拿数据，主要拿取设备id
-//        String line = s;
-//        System.out.println(line);
-//        DeviceMessage deviceMessage = new DeviceMessage();
-//        JSONObject jsonObject = new JSONObject().parseObject(line);
-//        deviceMessage.setPRODUCT_ID(jsonObject.getString("PRODUCT_ID"));
-//        deviceMessage.setDEVICE_ID(jsonObject.getString("DEVICE_ID"));
-//        deviceMessage.setFormatData(jsonObject.getJSONObject("formatData"));
-//        System.out.println(deviceMessage);
-//
-//        HashMap<Integer, VariableRule> map = RedisOps.getObjectHashAll(jsonObject.getString("DEVICE_ID"));
-//        if(map.size()!=0) {
-//            int i =0;
-//            for (HashMap.Entry<Integer, VariableRule> entry : map.entrySet()) {
-//                VariableRule rule = entry.getValue();
-//
-//                boolean flag = rule.Judge(deviceMessage);
-//                //如果flag是true，说明满足告警条件，需要向web端发送一个http告警请求，提交给线程池异步处理
-//                if(flag == true){
-//                      i++;
-//                }
-//                else{
-//                    System.out.println("不符合报警规则");
-//                    break;
-//                }
-//            }
-//            if(i == map.size()){
-//                System.out.println("符合报警规则发出告警！需要向web端发送一个http告警请求，提交给线程池异步处理");
-//            }
-//        }
-//        else{
-//            System.out.println("无该设备相应的规则");
-//        }
-        return Tuple2.of(s,"告警");
+    public Tuple2<DeviceMessage, ArrayList<AlarmInfo>> map(String msg) throws Exception {
+        //将kafka中的数据字符串转换为实体类
+        DeviceMessage deviceMessage = DeviceMessageJson.JsonToDeviceMessage(msg);
+        //获取该设备对应的所有规则
+        HashMap<Integer, VariableRule> map = RedisOps.getObjectHashAll(deviceMessage.getDEVICE_ID());
+        //是否告警的标志
+        boolean isAlarm = false;
+        alarmInfos = new ArrayList<>();
+
+        for (HashMap.Entry<Integer, VariableRule> entry : map.entrySet()){
+            VariableRule rule = entry.getValue();
+            //如果包含告警字段，则根据规则判断是否告警
+            if (deviceMessage.getFormatData().get(rule.getAttribute())!=null){
+                //判断是否告警
+                isAlarm = Judgement.judge(rule,deviceMessage.getFormatData());
+                //构造告警信息类并添加进集合中
+                alarmInfos.add(AlarmInfo.of(isAlarm,rule.getVariableFlag(),new String("变量:"+rule.getAttribute()+"告警")));
+            }
+        }
+        return Tuple2.of(deviceMessage,alarmInfos);
     }
 
     @Override

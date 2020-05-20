@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.codec.mqtt.MqttFixedHeader;
+import io.netty.handler.codec.mqtt.MqttMessage;
 import netty.deviceMessage.DeviceMessage;
 import netty.util.FileUtil;
 import netty.util.PropertiesUtil;

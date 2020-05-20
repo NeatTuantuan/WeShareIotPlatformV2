@@ -65,4 +65,14 @@ public class DeviceMessage{
         this.META_DATA = META_DATA;
     }
 
+    public DeviceMessage(){
+    }
+
+    public DeviceMessage(String productId, String deviceId, JSONObject formatData, byte[] metaData){
+        this.PRODUCT_ID = productId;
+        this.DEVICE_ID = deviceId;
+        this.formatData = formatData;
+        this.META_DATA = metaData;
+    }
+
 }

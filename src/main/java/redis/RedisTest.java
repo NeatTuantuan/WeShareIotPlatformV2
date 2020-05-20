@@ -1,12 +1,9 @@
 package redis;
 
 
-import flink.dao.BoolTypeRule;
-import flink.dao.DigitTypeRule;
 import flink.dao.VariableRule;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author lr

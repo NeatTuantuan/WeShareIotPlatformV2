@@ -40,7 +40,6 @@ public class MysqlSink extends RichSinkFunction<String> {
             }
         }
 
-
     }
 
     @Override

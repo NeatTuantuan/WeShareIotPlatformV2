@@ -23,7 +23,7 @@ public class ConsumerClient implements Serializable {
      */
     private String ConsumerClientIP;
     /**
-     * 客户端短端口
+     * 客户端端口
      */
     private int port;
 }

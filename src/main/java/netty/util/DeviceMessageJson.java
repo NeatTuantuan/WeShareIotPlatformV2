@@ -12,13 +12,24 @@ import netty.deviceMessage.DeviceMessage;
  * @Attention Copyright (C), 2004-2019, BDILab, XiDian University
  **/
 public class DeviceMessageJson {
-
+    public static JSONObject deviceMessageJson;
     public static JSONObject deviceMessageToJson(DeviceMessage deviceMessage){
-        JSONObject deviceMessageJson = new JSONObject();
+        deviceMessageJson = new JSONObject();
         deviceMessageJson.put("PRODUCT_ID",deviceMessage.getPRODUCT_ID());
         deviceMessageJson.put("DEVICE_ID",deviceMessage.getDEVICE_ID());
         deviceMessageJson.put("formatData",deviceMessage.getFormatData());
         deviceMessageJson.put("META_DATA",deviceMessage.getMETA_DATA());
         return deviceMessageJson;
+    }
+
+    public static DeviceMessage JsonToDeviceMessage(String msg){
+        JSONObject jsonObject = JSONObject.parseObject(msg);
+
+        String productId = jsonObject.getString("PRODUCT_ID");
+        String deviceId = jsonObject.getString("DEVICE_ID");
+        JSONObject temp = (JSONObject) jsonObject.get("formatData");
+        byte[] metaData = jsonObject.getBytes("META_DATA");
+
+        return new DeviceMessage(productId,deviceId,temp,metaData);
     }
 }
