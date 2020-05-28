@@ -29,8 +29,9 @@ import java.util.concurrent.locks.ReentrantLock;
  * @Attention Copyright (C), 2004-2019, BDILab, XiDian University
  **/
 public class AlarmMap extends RichMapFunction<String, Tuple2<DeviceMessage,ArrayList<AlarmInfo>>> {
-    //RedisConnection里redis链接最好单例模式，节省资源
-    //存放告警信息实体类的集合
+    /**
+     * 存放告警信息实体类的集合
+     */
     ArrayList<AlarmInfo> alarmInfos;
     @Override
     public void open(Configuration parameters) throws Exception {

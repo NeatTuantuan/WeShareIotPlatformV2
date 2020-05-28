@@ -37,7 +37,7 @@ public class ServiceSubscriptionMap extends RichMapFunction< Tuple2<DeviceMessag
 
     @Override
     public Tuple3<DeviceMessage,ArrayList<AlarmInfo>,ConsumerGroupInfo> map(Tuple2<DeviceMessage,ArrayList<AlarmInfo>> s) throws Exception {
-        consumerGroupMap = new HashMap<>();
+        consumerGroupMap = new HashMap<>(10);
         HashSet<String> keys = RedisOps.keys("*");
         for (String key : keys) {
             consumerGroupMap.put(key,(ServiceConsumerGroup)RedisOps.getObject(key));

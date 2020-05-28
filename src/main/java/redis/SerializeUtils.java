@@ -13,9 +13,11 @@ import java.io.ObjectOutputStream;
  * @description  序列化和反序列化
  */
 public class SerializeUtils {
-    /*
-    * 序列化
-    * */
+    /**
+     * 序列化
+     * @param object
+     * @return
+     */
     public static byte[] serialize(Object object){
         ObjectOutputStream oos = null;
         ByteArrayOutputStream baos = null;
@@ -41,9 +43,12 @@ public class SerializeUtils {
         }
         return null;
     }
-    /*
+
+    /**
      * 反序列化
-     * */
+     * @param bytes
+     * @return
+     */
     public static Object deserialize(byte[] bytes){
         ByteArrayInputStream bais = null;
         ObjectInputStream ois = null;
