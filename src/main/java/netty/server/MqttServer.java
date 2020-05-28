@@ -7,6 +7,7 @@ import io.netty.handler.codec.mqtt.MqttDecoder;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.mqtt.MqttEncoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
@@ -68,8 +69,11 @@ public class MqttServer {
         @Override
         protected void initChannel(SocketChannel socketChannel) throws Exception {
             //ShellHandler为自定义处理类
-            socketChannel.pipeline().addLast(new StringDecoder());
-            socketChannel.pipeline().addLast(new EncapsulationHandler());
+            socketChannel.pipeline().addLast(new MqttDecoder());
+            socketChannel.pipeline().addLast(MqttEncoder.INSTANCE);
+            socketChannel.pipeline().addLast(new MqttServerHandler());
+//            socketChannel.pipeline().addLast(new StringDecoder());
+//            socketChannel.pipeline().addLast(new EncapsulationHandler());
             socketChannel.pipeline().addLast(new ShellHandler());
             socketChannel.pipeline().addLast(new ProducerHandler());
 
