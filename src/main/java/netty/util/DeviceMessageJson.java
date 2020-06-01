@@ -1,7 +1,7 @@
 package netty.util;
 
 import com.alibaba.fastjson.JSONObject;
-import netty.deviceMessage.DeviceMessage;
+import netty.devicemessage.DeviceMessage;
 
 /**
  * @ClassName DeviceMessageJson

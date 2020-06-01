@@ -3,14 +3,13 @@ package flink.map;
 import flink.dao.AlarmInfo;
 import flink.dao.ConsumerGroupInfo;
 import flink.dao.ServiceConsumerGroup;
-import netty.deviceMessage.DeviceMessage;
+import netty.devicemessage.DeviceMessage;
 import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.configuration.Configuration;
 import redis.RedisOps;
 
-import javax.xml.ws.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;

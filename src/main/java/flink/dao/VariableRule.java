@@ -41,11 +41,11 @@ public class VariableRule implements Serializable{
     /**
      * 区间起始值
      */
-    private double START_SECTION;
+    private double startSection;
     /**
      * 区间结束值
      */
-    private double END_SECTION;
+    private double endSection;
     /**
      * 触发条件：0-大于
      * 1-小与

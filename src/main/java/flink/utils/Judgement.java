@@ -2,7 +2,6 @@ package flink.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import flink.dao.VariableRule;
-import netty.deviceMessage.DeviceMessage;
 
 /**
  * @ClassName Judgement

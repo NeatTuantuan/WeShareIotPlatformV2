@@ -3,7 +3,7 @@ package netty.protocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.mqtt.*;
-import netty.deviceMessage.DeviceMessage;
+import netty.devicemessage.DeviceMessage;
 
 
 public class ProtocolProcess {

@@ -1,17 +1,14 @@
 package netty.handler;
 
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.SimpleChannelInboundHandler;
 import kafka.SingleKafkaProps;
-import netty.deviceMessage.DeviceMessage;
+import netty.devicemessage.DeviceMessage;
 import netty.util.DeviceMessageJson;
-import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.kafka.clients.producer.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.concurrent.Future;
 
 /**

@@ -1,10 +1,14 @@
 package com.bdi.mqtt.client;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import netty.devicemessage.DeviceMessage;
+import netty.devicemessage.DeviceShadow;
+import netty.devicemessage.VariableReport;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,7 +28,7 @@ public class TimeClientHandler extends ChannelInboundHandlerAdapter {
     private static final Logger logger = Logger.getLogger(TimeClientHandler.class.getName());
     Timer time = new Timer();
     JSONObject jsonObject = new JSONObject();
-    JSONObject formatData = new JSONObject();
+
     Date date;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -37,19 +41,17 @@ public class TimeClientHandler extends ChannelInboundHandlerAdapter {
             @Override
             public void run() {
                 date = new Date();
+                DeviceShadow deviceShadow = new DeviceShadow("DM001", "UPDATE", "1.0", 1);
 
-                formatData.put("temperature",36.5);
-                formatData.put("switch",1);
-                formatData.put("time",simpleDateFormat.format(date));
+                jsonObject.put("temperature","36.5");
+                jsonObject.put("humidity","12.1");
+                jsonObject.put("switch_status","ON");
 
-                jsonObject.put("device_id","DEVICE-ID");
-                jsonObject.put("product_id","PRODUCT-ID");
-                jsonObject.put("format_Data",formatData);
-                jsonObject.put("meta_data","META_DATA".getBytes());
+                VariableReport variableReport = new VariableReport("DM001", "UPDATE", "1.0", jsonObject,"test".getBytes());
 
-                String reqMsg = jsonObject.toJSONString();
+                DeviceMessage deviceMessage = new DeviceMessage(1,"/weshare/iot/sys/product_id/device_id/thing/model/up_raw",deviceShadow,variableReport);
 
-                ByteBuf respByteBuf = Unpooled.copiedBuffer(reqMsg.getBytes());
+                ByteBuf respByteBuf = Unpooled.copiedBuffer(JSON.toJSONString(deviceMessage).getBytes());
                 /**
                  * writeBytes：将指定的源数组的数据传输到缓冲区
                  * 调用 ChannelHandlerContext 的 writeAndFlush 方法将消息发送给服务器

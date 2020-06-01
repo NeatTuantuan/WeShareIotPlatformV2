@@ -6,6 +6,9 @@ import io.netty.handler.codec.mqtt.MqttMessage;
 import netty.protocol.ProtocolProcess;
 
 
+/**
+ * @author lizongyin
+ */
 public class MqttServerHandler extends ChannelInboundHandlerAdapter {
 
     public ProtocolProcess protocolProcess = new ProtocolProcess();

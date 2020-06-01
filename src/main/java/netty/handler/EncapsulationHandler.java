@@ -1,9 +1,9 @@
 package netty.handler;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import netty.deviceMessage.DeviceMessage;
+import netty.devicemessage.DeviceMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,21 +17,13 @@ import org.slf4j.LoggerFactory;
  **/
 public class EncapsulationHandler extends SimpleChannelInboundHandler<String> {
     Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    DeviceMessage deviceMessage = new DeviceMessage();
+    DeviceMessage deviceMessage;
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-        //转换为json对象
-        JSONObject jsonObject = JSONObject.parseObject(msg);
-
-        deviceMessage.setDEVICE_ID(jsonObject.getString("device_id"));
-        deviceMessage.setPRODUCT_ID(jsonObject.getString("product_id"));
-        deviceMessage.setFormatData(jsonObject.getJSONObject("format_Data"));
-        deviceMessage.setMETA_DATA(jsonObject.getBytes("meta_data"));
+         deviceMessage = JSON.parseObject(msg,DeviceMessage.class);
 
         logger.info("----EncapsulationHandler----:"+deviceMessage.toString());
 
         ctx.fireChannelRead(deviceMessage);
-//        ctx.writeAndFlush(deviceMessage);
     }
 }

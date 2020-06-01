@@ -72,7 +72,6 @@ public class MqttServer {
             socketChannel.pipeline().addLast(new MqttDecoder());
             socketChannel.pipeline().addLast(MqttEncoder.INSTANCE);
             socketChannel.pipeline().addLast(new MqttServerHandler());
-//            socketChannel.pipeline().addLast(new StringDecoder());
 //            socketChannel.pipeline().addLast(new EncapsulationHandler());
             socketChannel.pipeline().addLast(new ShellHandler());
             socketChannel.pipeline().addLast(new ProducerHandler());

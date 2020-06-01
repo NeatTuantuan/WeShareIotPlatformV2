@@ -2,7 +2,7 @@ package flink.sink;
 
 import flink.dao.AlarmInfo;
 import flink.dao.ConsumerGroupInfo;
-import netty.deviceMessage.DeviceMessage;
+import netty.devicemessage.DeviceMessage;
 import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;

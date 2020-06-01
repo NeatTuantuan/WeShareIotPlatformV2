@@ -31,7 +31,6 @@ public class AlarmInfo {
     private String alarmMessage;
 
     public AlarmInfo(){
-
     }
 
     public AlarmInfo(boolean isAlarm, int alarmType, String alarmMessage){
