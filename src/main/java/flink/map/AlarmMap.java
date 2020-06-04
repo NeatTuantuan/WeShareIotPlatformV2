@@ -53,9 +53,9 @@ public class AlarmMap extends RichMapFunction<String, Tuple2<DeviceMessage,Array
     @Override
     public Tuple2<DeviceMessage, ArrayList<AlarmInfo>> map(String msg) throws Exception {
         //将kafka中的数据字符串转换为实体类
-         deviceMessage = DeviceMessageJson.JsonToDeviceMessage(msg);
+        deviceMessage = DeviceMessageJson.JsonToDeviceMessage(msg);
         //获取该设备对应的所有规则
-         map= RedisOps.getObjectHashAll(StringUtils.getDeviceId(deviceMessage.getTopic()));
+        map = RedisOps.getObjectHashAll(StringUtils.getDeviceId(deviceMessage.getTopic()));
 
         alarmInfos = new ArrayList<>();
 

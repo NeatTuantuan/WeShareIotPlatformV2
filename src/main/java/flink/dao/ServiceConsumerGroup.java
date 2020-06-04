@@ -37,4 +37,13 @@ public class ServiceConsumerGroup implements Serializable {
      * 5-平台远程控制
      */
     private HashSet<Integer> pushType;
+
+    public ServiceConsumerGroup(){}
+
+    public ServiceConsumerGroup(String consumerGroupId, ArrayList<ConsumerClient> client, ArrayList<String> deviceList, HashSet<Integer> pushType){
+        this.consumerGroupId = consumerGroupId;
+        this.client = client;
+        this.deviceList = deviceList;
+        this.pushType = pushType;
+    }
 }

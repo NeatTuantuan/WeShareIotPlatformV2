@@ -1,8 +1,8 @@
 package flink.map;
 
 import flink.dao.AlarmInfo;
-import flink.dao.ConsumerGroupInfo;
 import flink.dao.ServiceConsumerGroup;
+import flink.utils.StringUtils;
 import netty.devicemessage.DeviceMessage;
 import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
@@ -24,10 +24,20 @@ import java.util.Iterator;
  * @Attention Copyright (C), 2004-2019, BDILab, XiDian University
  **/
 public class ServiceSubscriptionMap extends RichMapFunction< Tuple2<DeviceMessage,ArrayList<AlarmInfo>>
-        ,Tuple3<DeviceMessage,ArrayList<AlarmInfo>,ConsumerGroupInfo>> {
-
+        ,Tuple3<DeviceMessage,ArrayList<AlarmInfo>,ServiceConsumerGroup>> {
+    /**
+     *服务端订阅集合
+     */
     private HashMap<String,ServiceConsumerGroup> consumerGroupMap = null;
+
+    /**
+     *迭代器
+     */
     private Iterator it = consumerGroupMap.entrySet().iterator();
+    /**
+     * 返回值
+     */
+    Tuple3 tuple3 = null;
 
     @Override
     public void open(Configuration parameters) throws Exception {
@@ -35,9 +45,11 @@ public class ServiceSubscriptionMap extends RichMapFunction< Tuple2<DeviceMessag
     }
 
     @Override
-    public Tuple3<DeviceMessage,ArrayList<AlarmInfo>,ConsumerGroupInfo> map(Tuple2<DeviceMessage,ArrayList<AlarmInfo>> s) throws Exception {
+    public Tuple3<DeviceMessage, ArrayList<AlarmInfo>, ServiceConsumerGroup> map(Tuple2<DeviceMessage,ArrayList<AlarmInfo>> msg) throws Exception {
         consumerGroupMap = new HashMap<>(10);
+
         HashSet<String> keys = RedisOps.keys("*");
+
         for (String key : keys) {
             consumerGroupMap.put(key,(ServiceConsumerGroup)RedisOps.getObject(key));
         }
@@ -46,12 +58,12 @@ public class ServiceSubscriptionMap extends RichMapFunction< Tuple2<DeviceMessag
             String key = (String) it.next();
             ServiceConsumerGroup group = consumerGroupMap.get(key);
             //如果某消费者组中有该设备
-            if (group.getDeviceList().contains(s)){
-                //根据pushType选择推送信息，在线程池异步发送消息
+            if (group.getDeviceList().contains(StringUtils.getDeviceId(msg.f0.getTopic()))){
+                 tuple3 = Tuple3.of(msg.f0,msg.f1,group);
             }
         }
 
-        return null;
+        return tuple3;
     }
 
     @Override

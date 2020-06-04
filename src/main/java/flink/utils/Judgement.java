@@ -20,6 +20,7 @@ public class Judgement {
      */
     public static boolean judge(VariableRule rule, JSONObject formatData){
         switch (rule.getVariableFlag()){
+            //这里要注意实体类里true/false对应的是0/1
             case 0:
                 return formatData.getString(rule.getAttribute())
                         .equals(String.valueOf(rule.getBoolTriggerCondition()));
@@ -29,13 +30,13 @@ public class Judgement {
 
                 switch (rule.getVarTriggerCondition()){
                     case 0:
-                        return doubleAttributeValue > rule.getSTART_SECTION() ? true : false;
+                        return doubleAttributeValue > rule.getStartSection() ? true : false;
                     case 1:
-                        return doubleAttributeValue < rule.getSTART_SECTION() ? true : false;
+                        return doubleAttributeValue < rule.getStartSection() ? true : false;
                     case 2:
-                        return (doubleAttributeValue <= rule.getEND_SECTION() && doubleAttributeValue >= rule.getSTART_SECTION()) ? true : false;
+                        return (doubleAttributeValue <= rule.getEndSection() && doubleAttributeValue >= rule.getStartSection()) ? true : false;
                     case 3:
-                        return(doubleAttributeValue > rule.getEND_SECTION() || doubleAttributeValue < rule.getSTART_SECTION()) ? true : false;
+                        return(doubleAttributeValue > rule.getEndSection() || doubleAttributeValue < rule.getStartSection()) ? true : false;
                     default :
                         return false;
 
