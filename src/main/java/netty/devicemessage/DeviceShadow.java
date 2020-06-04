@@ -43,4 +43,13 @@ public class DeviceShadow {
      * @param state
      */
     public DeviceShadow(String id, String method, String version, int state){}
+
+    public boolean isDeviceShadow(String topics){
+
+        String[] token = topics.split("/");
+        if(token[1].equals("weshare") && token[2].equals("iot") &&token[3].equals("update") &&
+                token[4].equals("shadow"))
+            return true;
+        return false;
+    }
 }
