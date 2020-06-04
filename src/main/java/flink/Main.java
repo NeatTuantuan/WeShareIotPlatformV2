@@ -1,5 +1,8 @@
 package flink;
 
+import netty.devicemessage.DeviceMessage;
+import netty.util.DeviceMessageJson;
+
 import java.io.IOException;
 
 /**
@@ -12,6 +15,8 @@ import java.io.IOException;
  **/
 public class Main {
     public static void main(String[] args) throws IOException {
+        DeviceMessage deviceMessage = DeviceMessageJson.JsonToDeviceMessage("{\"deviceMessageType\":0,\"topic\":\"topic\"}");
 
+        System.out.print(deviceMessage.getTopic());
     }
 }

@@ -51,4 +51,13 @@ public class VariableReport {
         this.variableJson = variableMap;
         this.metaData = metaData;
     }
+
+    public boolean isVariableReport(String topics){
+
+        String[] token = topics.split("/");
+        if(token[1].equals("weshare") && token[2].equals("iot") &&token[3].equals("sys") &&
+                token[6].equals("thing") && token[7].equals("model") && token[8].equals("up_raw"))
+            return true;
+        return false;
+    }
 }
