@@ -60,4 +60,38 @@ public class VariableReport {
             return true;
         return false;
     }
+
+    public JSONObject getVariableJson() {
+        return variableJson;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public void setVariableJson(JSONObject variableJson) {
+        this.variableJson = variableJson;
+    }
+
+    public byte[] getMetaData() {
+        return metaData;
+    }
+
+    public void setMetaData(byte[] metaData) {
+        this.metaData = metaData;
+    }
+
+
 }

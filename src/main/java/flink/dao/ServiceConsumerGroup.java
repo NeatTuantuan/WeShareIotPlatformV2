@@ -16,6 +16,8 @@ import java.util.HashSet;
  **/
 @Data
 public class ServiceConsumerGroup implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     /**
      * 消费者组ID
      */
@@ -44,6 +46,38 @@ public class ServiceConsumerGroup implements Serializable {
         this.consumerGroupId = consumerGroupId;
         this.client = client;
         this.deviceList = deviceList;
+        this.pushType = pushType;
+    }
+
+    public ArrayList<String> getDeviceList() {
+        return deviceList;
+    }
+
+    public String getConsumerGroupId() {
+        return consumerGroupId;
+    }
+
+    public ArrayList<ConsumerClient> getClient() {
+        return client;
+    }
+
+    public HashSet<Integer> getPushType() {
+        return pushType;
+    }
+
+    public void setConsumerGroupId(String consumerGroupId) {
+        this.consumerGroupId = consumerGroupId;
+    }
+
+    public void setClient(ArrayList<ConsumerClient> client) {
+        this.client = client;
+    }
+
+    public void setDeviceList(ArrayList<String> deviceList) {
+        this.deviceList = deviceList;
+    }
+
+    public void setPushType(HashSet<Integer> pushType) {
         this.pushType = pushType;
     }
 }

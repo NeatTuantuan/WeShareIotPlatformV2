@@ -10,10 +10,7 @@ import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.configuration.Configuration;
 import redis.RedisOps;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * @ClassName ServiceSubscriptionMap
@@ -23,17 +20,14 @@ import java.util.Iterator;
  * @Version 1.0
  * @Attention Copyright (C), 2004-2019, BDILab, XiDian University
  **/
-public class ServiceSubscriptionMap extends RichMapFunction< Tuple2<DeviceMessage,ArrayList<AlarmInfo>>
+public class ServiceSubscriptionMap extends RichMapFunction<Tuple2<DeviceMessage,ArrayList<AlarmInfo>>
         ,Tuple3<DeviceMessage,ArrayList<AlarmInfo>,ServiceConsumerGroup>> {
     /**
      *服务端订阅集合
      */
     private HashMap<String,ServiceConsumerGroup> consumerGroupMap = null;
 
-    /**
-     *迭代器
-     */
-    private Iterator it = consumerGroupMap.entrySet().iterator();
+
     /**
      * 返回值
      */
@@ -48,14 +42,15 @@ public class ServiceSubscriptionMap extends RichMapFunction< Tuple2<DeviceMessag
     public Tuple3<DeviceMessage, ArrayList<AlarmInfo>, ServiceConsumerGroup> map(Tuple2<DeviceMessage,ArrayList<AlarmInfo>> msg) throws Exception {
         consumerGroupMap = new HashMap<>(10);
 
-        HashSet<String> keys = RedisOps.keys("*");
+        HashSet<String> keys = RedisOps.keys("*",1);
 
         for (String key : keys) {
-            consumerGroupMap.put(key,(ServiceConsumerGroup)RedisOps.getObject(key));
+            consumerGroupMap.put(key,(ServiceConsumerGroup)RedisOps.getObject(key,1));
         }
 
-        while (it.hasNext()) {
-            String key = (String) it.next();
+
+        for(HashMap.Entry<String,ServiceConsumerGroup> consumerGroupEntry : consumerGroupMap.entrySet()){
+            String key = consumerGroupEntry.getKey();
             ServiceConsumerGroup group = consumerGroupMap.get(key);
             //如果某消费者组中有该设备
             if (group.getDeviceList().contains(StringUtils.getDeviceId(msg.f0.getTopic()))){

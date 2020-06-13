@@ -58,4 +58,56 @@ public class VariableRule implements Serializable{
      * 触发条件：0或者1
      */
     private int boolTriggerCondition;
+
+    public String getAttribute() {
+        return attribute;
+    }
+
+    public int getVariableFlag() {
+        return variableFlag;
+    }
+
+    public double getStartSection() {
+        return startSection;
+    }
+
+    public double getEndSection() {
+        return endSection;
+    }
+
+    public int getVarTriggerCondition() {
+        return varTriggerCondition;
+    }
+
+    public int getBoolTriggerCondition() {
+        return boolTriggerCondition;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
+    }
+
+    public void setVariableFlag(int variableFlag) {
+        this.variableFlag = variableFlag;
+    }
+
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
+    }
+
+    public void setStartSection(double startSection) {
+        this.startSection = startSection;
+    }
+
+    public void setEndSection(double endSection) {
+        this.endSection = endSection;
+    }
+
+    public void setVarTriggerCondition(int varTriggerCondition) {
+        this.varTriggerCondition = varTriggerCondition;
+    }
+
+    public void setBoolTriggerCondition(int boolTriggerCondition) {
+        this.boolTriggerCondition = boolTriggerCondition;
+    }
 }

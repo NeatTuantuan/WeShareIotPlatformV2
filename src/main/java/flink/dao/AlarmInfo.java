@@ -42,4 +42,7 @@ public class AlarmInfo {
     public static AlarmInfo of(boolean isAlarm, int alarmType, String alarmMessage){
         return new AlarmInfo(isAlarm,alarmType,alarmMessage);
     }
+
+
+
 }
