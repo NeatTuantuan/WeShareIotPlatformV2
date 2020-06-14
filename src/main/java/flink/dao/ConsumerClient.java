@@ -26,4 +26,28 @@ public class ConsumerClient implements Serializable {
      * 客户端端口
      */
     private int port;
+
+    public String getConsumerClientId() {
+        return ConsumerClientId;
+    }
+
+    public void setConsumerClientId(String consumerClientId) {
+        ConsumerClientId = consumerClientId;
+    }
+
+    public String getConsumerClientIP() {
+        return ConsumerClientIP;
+    }
+
+    public void setConsumerClientIP(String consumerClientIP) {
+        ConsumerClientIP = consumerClientIP;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
 }
