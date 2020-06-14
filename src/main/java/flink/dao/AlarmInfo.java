@@ -13,16 +13,14 @@ import lombok.Data;
 @Data
 public class AlarmInfo {
     /**
-     * 是否告警：
-     * true-告警
-     * false-不告警
+     * 告警字段
      */
-    private boolean isAlarm;
+    private String attribute;
     /**
      * 告警类型：
      * 1-区间类型
-     * 2-布尔类型
-     * 3-上下线
+     * 0-布尔类型
+     * 2-上下线
      */
     private int alarmType;
     /**
@@ -33,13 +31,13 @@ public class AlarmInfo {
     public AlarmInfo(){
     }
 
-    public AlarmInfo(boolean isAlarm, int alarmType, String alarmMessage){
-        this.isAlarm = isAlarm;
+    public AlarmInfo(String attribute, int alarmType, String alarmMessage){
+        this.attribute = attribute;
         this.alarmType = alarmType;
         this.alarmMessage = alarmMessage;
     }
 
-    public static AlarmInfo of(boolean isAlarm, int alarmType, String alarmMessage){
-        return new AlarmInfo(isAlarm,alarmType,alarmMessage);
+    public static AlarmInfo of(String attribute, int alarmType, String alarmMessage){
+        return new AlarmInfo(attribute,alarmType,alarmMessage);
     }
 }

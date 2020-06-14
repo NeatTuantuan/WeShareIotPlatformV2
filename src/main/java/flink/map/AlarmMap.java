@@ -29,7 +29,7 @@ public class AlarmMap extends RichMapFunction<String, Tuple2<DeviceMessage,Array
     /**
      * 存放告警信息实体类的集合
      */
-    ArrayList<AlarmInfo> alarmInfos;
+    ArrayList<AlarmInfo> alarmInfos = null;
     /**
      * 设备信息实体类
      */
@@ -42,6 +42,12 @@ public class AlarmMap extends RichMapFunction<String, Tuple2<DeviceMessage,Array
      * 是否告警的标志
      */
     boolean isAlarm = false;
+    /**
+     * 设备状态：
+     * 0-离线
+     * 1-在线
+     */
+    int state = 0;
 
     @Override
     public void open(Configuration parameters) throws Exception {
@@ -56,19 +62,29 @@ public class AlarmMap extends RichMapFunction<String, Tuple2<DeviceMessage,Array
         deviceMessage = DeviceMessageJson.JsonToDeviceMessage(msg);
         //获取该设备对应的所有规则
         map = RedisOps.getObjectHashAll(StringUtils.getDeviceId(deviceMessage.getTopic()));
+        //变量值
+        String attributeValue;
 
         alarmInfos = new ArrayList<>();
 
         for (HashMap.Entry<Integer, VariableRule> entry : map.entrySet()){
-            VariableRule rule = entry.getValue();
+                VariableRule rule = entry.getValue();
             //如果包含告警字段，则根据规则判断是否告警
-            if (deviceMessage.getVariableReport().getVariableJson().get(rule.getAttribute())!=null){
+            if ((attributeValue = (String)deviceMessage.getVariableReport().getVariableJson().get(rule.getAttribute()))!=null){
                 //判断是否告警
                 isAlarm = Judgement.judge(rule,deviceMessage.getVariableReport().getVariableJson());
                 //构造告警信息类并添加进集合中
-                alarmInfos.add(AlarmInfo.of(isAlarm,rule.getVariableFlag(),new String("变量:"+rule.getAttribute()+"告警")));
+                if (isAlarm == true){
+                    alarmInfos.add(AlarmInfo.of(rule.getAttribute(),rule.getVariableFlag(),new String("变量:"+rule.getAttribute()+"告警:"+attributeValue)));
+                }
             }
         }
+        //判断设备当前在线状态
+        if (deviceMessage.getDeviceShadow()!=null && deviceMessage.getDeviceShadow().getState()!=state){
+            alarmInfos.add(AlarmInfo.of(null,2,deviceMessage.getDeviceShadow().getState() == 0?"设备下线":"设备上线"));
+            state = deviceMessage.getDeviceShadow().getState();
+        }
+
         return Tuple2.of(deviceMessage,alarmInfos);
     }
 

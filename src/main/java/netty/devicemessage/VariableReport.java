@@ -29,7 +29,9 @@ public class VariableReport {
      * 存放变量的集合
      */
     private JSONObject variableJson;
-
+    /**
+     * 元数据
+     */
     private byte[] metaData;
 
     /**

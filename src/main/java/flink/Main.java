@@ -1,6 +1,8 @@
 package flink;
 
+import com.alibaba.fastjson.JSONObject;
 import netty.devicemessage.DeviceMessage;
+import netty.devicemessage.VariableReport;
 import netty.util.DeviceMessageJson;
 
 import java.io.IOException;
@@ -15,8 +17,12 @@ import java.io.IOException;
  **/
 public class Main {
     public static void main(String[] args) throws IOException {
-        DeviceMessage deviceMessage = DeviceMessageJson.JsonToDeviceMessage("{\"deviceMessageType\":0,\"topic\":\"topic\"}");
+//deviceMessage.getVariableReport().getVariableJson().get(rule.getAttribute())
+        VariableReport variableReport = new VariableReport();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("test","1");
+        variableReport.setVariableJson(jsonObject);
 
-        System.out.print(deviceMessage.getTopic());
+        System.out.println((String) variableReport.getVariableJson().get("ggg"));
     }
 }
