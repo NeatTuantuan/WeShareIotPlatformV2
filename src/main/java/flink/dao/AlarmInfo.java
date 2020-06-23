@@ -40,4 +40,7 @@ public class AlarmInfo {
     public static AlarmInfo of(String attribute, int alarmType, String alarmMessage){
         return new AlarmInfo(attribute,alarmType,alarmMessage);
     }
+
+
+
 }

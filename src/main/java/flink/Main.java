@@ -1,11 +1,13 @@
 package flink;
 
+
 import com.alibaba.fastjson.JSONObject;
 import netty.devicemessage.DeviceMessage;
 import netty.devicemessage.VariableReport;
 import netty.util.DeviceMessageJson;
 
 import java.io.IOException;
+import java.util.Collections;
 
 /**
  * @ClassName Main
@@ -24,5 +26,8 @@ public class Main {
         variableReport.setVariableJson(jsonObject);
 
         System.out.println((String) variableReport.getVariableJson().get("ggg"));
+
+        Collections.synchronizedList()
+
     }
 }

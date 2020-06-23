@@ -45,7 +45,7 @@ public class TimeClientHandler extends ChannelInboundHandlerAdapter {
 
                 jsonObject.put("temperature","36.5");
                 jsonObject.put("humidity","12.1");
-                jsonObject.put("switch_status","ON");
+                jsonObject.put("switch_status","1");
 
                 VariableReport variableReport = new VariableReport("DM001", "UPDATE", "1.0", jsonObject,"test".getBytes());
 

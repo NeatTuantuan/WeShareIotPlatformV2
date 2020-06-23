@@ -52,4 +52,20 @@ public class DeviceShadow {
             return true;
         return false;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public int getState() {
+        return state;
+    }
 }

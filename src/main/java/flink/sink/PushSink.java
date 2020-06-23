@@ -35,26 +35,34 @@ public class PushSink extends RichSinkFunction<Tuple3<DeviceMessage,ArrayList<Al
     public void invoke(Tuple3<DeviceMessage, ArrayList<AlarmInfo>, ServiceConsumerGroup> value, Context context) throws Exception {
         //向本地推送每个告警list的实体类
         for (AlarmInfo alarmInfo : value.f1) {
-            //HttpUtil.push("127.0.0.1","8080,alarmInfo);
+//            String s = HttpRequest.sendPost("http://127.0.0.1:9998/push", alarmInfo.toString());
+//            System.out.println(s);
         }
-
+        /**
+         * 暂时存本地ip端口，方便测试
+         */
         for (ConsumerClient consumerClient : value.f2.getClient()) {
             //推送类型中有设备上报消息
             if (value.f2.getPushType().contains(1)){
-                //HttpUtil.push(consumerClient.getConsumerClientIP(),consumerClient.getport(),DeviceMessage.getVariableReport);
+//                String s = HttpRequest.sendPost("http://" + consumerClient.getConsumerClientIP()+ ":" + consumerClient.getPort() + "/push", value.f0.getVariableReport().toString());
+//                System.out.println(s);
             }
             //推送类型中有生命周期变化
             if (value.f2.getPushType().contains(2)){
                 //若当前设备状态有变化，则推送信息
                 if (value.f0.getDeviceShadow().getState() != stateFlag){
-                    //HttpUtil.push(consumerClient.getConsumerClientIP(),consumerClient.getport(),DeviceMessage.getDeviceShadow);
+//                    String s = HttpRequest.sendPost("http://" + consumerClient.getConsumerClientIP()+ ":" + consumerClient.getPort() + "/push", value.f0.getDeviceShadow().toString());
+//                    System.out.println(s);
                 }
                 //重制设备状态
                 stateFlag = value.f0.getDeviceShadow().getState();
             }
             //推送类型中有设备告警
             if (value.f2.getPushType().contains(4)){
-                //推送告警信息
+                for (AlarmInfo alarmInfo : value.f1) {
+//                    String s = HttpRequest.sendPost("http://" + consumerClient.getConsumerClientIP() + ":" + consumerClient.getPort() + "/push", alarmInfo.toString());
+//                    System.out.println(s);
+                }
             }
         }
 

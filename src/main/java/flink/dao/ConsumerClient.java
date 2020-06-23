@@ -26,4 +26,17 @@ public class ConsumerClient implements Serializable {
      * 客户端端口
      */
     private int port;
+    /**
+     * webSocket的用户ID
+     */
+    private int userId;
+
+    public ConsumerClient(){}
+
+    public ConsumerClient(String ConsumerClientId, String ConsumerClientIP, int port, int userId){
+        this.ConsumerClientId = ConsumerClientId;
+        this.ConsumerClientIP = ConsumerClientIP;
+        this.port = port;
+        this.userId = userId;
+    }
 }

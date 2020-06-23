@@ -16,6 +16,8 @@ import java.util.HashSet;
  **/
 @Data
 public class ServiceConsumerGroup implements Serializable {
+
+    private static final long serialVersionUID = 1L;
     /**
      * 消费者组ID
      */

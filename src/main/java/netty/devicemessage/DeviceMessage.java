@@ -41,4 +41,23 @@ public class DeviceMessage{
         this.variableReport = variableReport;
     }
 
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setDeviceMessageType(int deviceMessageType) {
+        this.deviceMessageType = deviceMessageType;
+    }
+
+    public VariableReport getVariableReport() {
+        return variableReport;
+    }
+
+    public int getDeviceMessageType() {
+        return deviceMessageType;
+    }
+
+    public DeviceShadow getDeviceShadow() {
+        return deviceShadow;
+    }
 }
