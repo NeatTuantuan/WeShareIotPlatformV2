@@ -7,8 +7,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="weShareIotPlatformV2" />
+        <module name="Share" />
         <module name="WeShareIotPlatformV2" />
+        <module name="weShareIotPlatformV2" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8" />

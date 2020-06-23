@@ -12,10 +12,7 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
-import netty.handler.EncapsulationHandler;
-import netty.handler.MqttServerHandler;
-import netty.handler.ProducerHandler;
-import netty.handler.ShellHandler;
+import netty.handler.*;
 
 import java.util.concurrent.TimeUnit;
 
@@ -26,7 +23,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class MqttServer {
     public static void main(String[] args) {
-        int port = 8888;
+        int port = 1883;
         try {
             new MqttServer().bind(port);
         } catch (Exception e) {
@@ -72,10 +69,11 @@ public class MqttServer {
             socketChannel.pipeline().addLast(new MqttDecoder());
             socketChannel.pipeline().addLast(MqttEncoder.INSTANCE);
             socketChannel.pipeline().addLast(new MqttServerHandler());
+            socketChannel.pipeline().addLast(new HbaseHandler());
 //            socketChannel.pipeline().addLast(new StringDecoder());
 //            socketChannel.pipeline().addLast(new EncapsulationHandler());
-            socketChannel.pipeline().addLast(new ShellHandler());
-            socketChannel.pipeline().addLast(new ProducerHandler());
+//            socketChannel.pipeline().addLast(new ShellHandler());
+//            socketChannel.pipeline().addLast(new ProducerHandler());
 
         }
     }

@@ -27,7 +27,5 @@ public class Main {
 
         System.out.println((String) variableReport.getVariableJson().get("ggg"));
 
-        Collections.synchronizedList()
-
     }
 }

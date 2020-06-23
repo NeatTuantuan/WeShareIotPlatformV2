@@ -62,13 +62,10 @@ public class AlarmMap extends RichMapFunction<String, Tuple2<DeviceMessage,Array
         deviceMessage = DeviceMessageJson.JsonToDeviceMessage(msg);
 
         //获取该设备对应的所有规则
-<<<<<<< HEAD
-        map = RedisOps.getObjectHashAll(StringUtils.getDeviceId(deviceMessage.getTopic()));
+        HashMap<Integer, VariableRule> map = RedisOps.getObjectHashAll(StringUtils.getDeviceId(deviceMessage.getTopic()),0);
+
         //变量值
         String attributeValue;
-=======
-        HashMap<Integer, VariableRule> map = RedisOps.getObjectHashAll(StringUtils.getDeviceId(deviceMessage.getTopic()),0);
->>>>>>> 15864ac00834cb94a8f9df1684d5c5540facde6c
 
         alarmInfos = new ArrayList<>();
 
