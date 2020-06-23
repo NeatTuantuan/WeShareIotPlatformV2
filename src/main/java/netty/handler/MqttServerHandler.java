@@ -1,5 +1,6 @@
 package netty.handler;
 
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.mqtt.MqttMessage;
@@ -19,20 +20,23 @@ public class MqttServerHandler extends ChannelInboundHandlerAdapter {
             System.out.println("msg == null");
             return;
         }
-            MqttMessage message = (MqttMessage) msg;
-            switch (message.fixedHeader().messageType()) {
-                case CONNECT:
-                    protocolProcess.processConnectBack(ctx,message);
-                    break;
+        MqttMessage message = (MqttMessage) msg;
+        switch (message.fixedHeader().messageType()) {
+            case CONNECT:
+                protocolProcess.processConnectBack(ctx,message);
+                break;
 
-                case PUBLISH:
-                    protocolProcess.processRecivePublishMsg(ctx,message);
-                    break;
-                default:
-                    break;
-            }
-
+            case PUBLISH:
+                protocolProcess.processRecivePublishMsg(ctx,message);
+                break;
+            default:
+                break;
+        }
 
     }
 
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        super.exceptionCaught(ctx, cause);
+    }
 }
